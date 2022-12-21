@@ -1,4 +1,28 @@
-<p>Test</p>
-<script type="module" src="./dist/il-tuto.js"></script>
-<il-tuto name="karim eczema"></il-tuto>
-<button id="button"></button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ILOG - PROJET 1</title>
+    <link rel="stylesheet" href="./styles/atom-one-dark.css">
+    <link rel="stylesheet" href="./styles/main.css">
+</head>
+<body>
+    <h2>Test</h2>
+    <p id="start"></p>
+    <il-tuto text="function test(int x) {
+        return x*2;
+    }
+    "></il-tuto>
+    <il-tuto text='const elts = document.querySelectorAll(".fa")
+    elts.forEach(elt =&gt; {
+        console.log(elt)
+    })'></il-tuto>
+    <il-tuto text="this.element = new Object(int x = 12); 
+    console.log('yeah')"></il-tuto>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script id="highlight">hljs.highlightAll();</script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="dist/il-tuto.js"></script>
+</body>
+</html>
