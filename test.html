@@ -9,38 +9,10 @@
 <body>
     <h2>Test</h2>
     <p id="start"></p>
-    <il-tuto code='def hello_world(name):
-    print("Hello, World! My name is", name)
-  
-  hello_world("John")
-    ' language="python"></il-tuto>
-    <il-tuto code="function helloWorld(name: string) {
-        console.log(`Hello, World! My name is ${name}`);
-      }
-      
-      helloWorld('John');" language="typescript"></il-tuto>
-    <il-tuto code='public class HelloWorld {
-        public static void main(String[] args) {
-          helloWorld("John");
-        }
-      
-        public static void helloWorld(String name) {
-          System.out.println("Hello, World! My name is " + name);
-        }
-      }' language="java"></il-tuto>
-    <il-tuto code='#include <iostream>
-        #include <string>
-        
-        void helloWorld(std::string name) {
-          std::cout << "Hello, World! My name is " << name << std::endl;
-        }
-        
-        int main() {
-          helloWorld("John");
-          return 0;
-        }' language="cpp"></il-tuto>
+    <il-tuto filePath="/ressources/testInput.html" language="html"></il-tuto>
+    <il-tuto filePath="/ressources/test.txt" language="java"></il-tuto>
+    <il-tuto filePath="/ressources/test2.txt" language="html"></il-tuto>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-    <script id="highlight">hljs.highlightAll();</script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script src="dist/il-tuto.js"></script>

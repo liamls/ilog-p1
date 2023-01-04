@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Programmation Web</title>
+  <meta name="author" content="Christophe TOMBELLE">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+  <div class="w3-container">
+    <h1>Programmation Web</h1>
+    <h4>Ojectifs</h4>
+    <ul>
+      <li>Découvrir la manipulation des différents DOM ;</li>
+    </ul>
+    <h4>Fondamentaux</h4>
+    <ul>
+      <li>Scripting du DOM HTML ;</li>
+      <li>CSS sélecteurs, styles (styles courants, Box model, Grid Model),
+        règles, prioriété, feuilles, scripting ;</li>
+      <li>template strings et fonctions template ;</li>
+      <li>bonnes pratiques ;</li>
+    </ul>
+
+  </div>
+</body>
+</html>

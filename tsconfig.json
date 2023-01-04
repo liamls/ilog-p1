@@ -10,7 +10,7 @@
     "noImplicitReturns": true,
     "moduleResolution":"node",
     "strict": true,
-    "types": ["node"]
+    "types": ["node"],
   },
   "include": ["src/**/*.ts", "tests/**/*.ts", "https:/**/*.js"],
   "exclude": ["node_modules", ".vscode"]
