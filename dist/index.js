@@ -21,7 +21,7 @@ if (inputForm) {
             script1.setAttribute('id', 'test1');
             script1.innerText = "hljs.highlightAll();";
             var script2 = document.createElement('script');
-            script1.setAttribute('id', 'test2');
+            script2.setAttribute('id', 'test2');
             script2.innerText = "tippy('#tip-java', {content: 'This is java Code',});";
             inputForm.appendChild(script1);
             inputForm.appendChild(script2);
