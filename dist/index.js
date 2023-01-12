@@ -1,32 +1,17 @@
 "use strict";
-const inputForm = document.getElementById('inputForm');
-const inputFile = document.getElementById('inputFile');
-const display = document.getElementById("coder");
-console.log(Date);
-let final_vals;
-if (inputForm) {
-    final_vals = "";
-    inputForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        let csvReader = new FileReader();
-        const input = inputFile.files[0];
-        csvReader.onload = function (evt) {
-            const text = evt.target.result;
-            var code = document.createElement("code");
-            code.setAttribute('class', 'language-java');
-            code.setAttribute('id', 'tip-java');
-            code.appendChild(document.createTextNode(text));
-            display === null || display === void 0 ? void 0 : display.appendChild(code);
-            var script1 = document.createElement('script');
-            script1.setAttribute('id', 'test1');
-            script1.innerText = "hljs.highlightAll();";
-            var script2 = document.createElement('script');
-            script2.setAttribute('id', 'test2');
-            script2.innerText = "tippy('#tip-java', {content: 'This is java Code',});";
-            inputForm.appendChild(script1);
-            inputForm.appendChild(script2);
-        };
-        csvReader.readAsText(input);
-    });
-}
-//# sourceMappingURL=index.js.map
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(require("./components"), exports);

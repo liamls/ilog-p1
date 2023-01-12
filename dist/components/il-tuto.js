@@ -50,6 +50,7 @@ class IlTuto extends HTMLElement {
             }
             else {
                 code_items.forEach(code_item => {
+                    console.log(code_item.textContent);
                     if (code_item.textContent == "	") {
                         code_item.remove();
                     }

@@ -1,17 +1,10 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "allowJs": true,            
-    "checkJs": true,
-    "outDir": "dist",
-    "sourceMap": true,
-    "target": "ES6",
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "moduleResolution":"node",
-    "strict": true,
-    "types": ["node"],
+    "target": "es2015",
+    "declaration": true,
+    "outDir": "./dist"
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts", "https:/**/*.js"],
-  "exclude": ["node_modules", ".vscode"]
+  "include": [
+    "src/**/*"
+  ]
 }

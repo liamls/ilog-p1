@@ -7,6 +7,7 @@ class IlTuto extends HTMLElement {
   ]);
 
   connectedCallback() {
+    console.log("on passe bien dans notre composant")
     const inputFilePath = this.getAttribute('filePath');
     var pathFileToDisplay = "";
     if(inputFilePath) {
@@ -51,7 +52,6 @@ class IlTuto extends HTMLElement {
         code_items_total.push(code_item);
       } else {
         code_items.forEach(code_item => {
-          console.log(code_item.textContent);
           if(code_item.textContent == "	") {
             code_item.remove();
           } else {
