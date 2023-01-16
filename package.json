@@ -1,10 +1,10 @@
 {
   "name": "projet1",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "build": "tsc && browserify dist/src/il-tuto.js dist/src/il-tuto-legacyTest.js -o dist/bundle.js",
+    "build": "mkdir -p dist/styles && cp ./styles/** ./dist/styles && tsc && browserify dist/src/il-tuto.js dist/src/il-tuto-legacyTest.js -o dist/bundle.js",
     "type": "tsc --noEmit"
   },
   "author": "",
