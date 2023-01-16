@@ -9,6 +9,23 @@ class IlTuto extends HTMLElement {
   ]);
 
   connectedCallback() {
+    var head = document.getElementsByTagName('head')[0];
+    var styleSheet1 = document.createElement('link');
+    styleSheet1.setAttribute(
+      'rel','stylesheet'
+    );
+    styleSheet1.setAttribute(
+      'href','./styles/atom-one-dark.css'
+    );
+    var styleSheet2 = document.createElement('link');
+    styleSheet2.setAttribute(
+      'rel','stylesheet'
+    );
+    styleSheet2.setAttribute(
+      'href','./styles/main.css'
+    );
+    head.appendChild(styleSheet1);
+    head.appendChild(styleSheet2);
     const inputFilePath = this.getAttribute('filePath');
     var pathFileToDisplay = "";
     if(inputFilePath) {
@@ -49,7 +66,6 @@ class IlTuto extends HTMLElement {
         code_items_total.push(code_item);
       } else {
         code_items.forEach(code_item => {
-          console.log(code_item.textContent);
           if(code_item.textContent == "	") {
             code_item.remove();
           } else {

@@ -1,0 +1,194 @@
+[tooltip] {
+	font-weight: bold;
+	color: red;
+	border-bottom-width: 3px;
+	border-bottom-style: dotted;
+	border-bottom-color: red;
+	display: inline;
+}
+
+.tooltip {
+	display: none;
+	/* background-color: silver;
+	border-radius: 10px;
+	color: dimgrey;
+	padding-top: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-left: 10px; */
+}
+
+span.tut-codebm {
+	display: block;
+	border-left-width: 6px;
+	border-left-style: solid;
+	border-left-color: #4caf50;
+}
+
+span.tut-codem {
+	border-bottom-width: 6px;
+	border-bottom-style: solid;
+	border-bottom-color: #4caf50;
+}
+
+.tut-noselection {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.red-border {
+	border: 1px solid red;
+}
+
+.tut-snippet {
+	position: relative;
+}
+
+.tut-icon { /* fa w3-button w3-display-topleft */
+	background-color: inherit;
+	border: none;
+	color: inherit;
+	cursor: pointer;
+	display: inline-block;
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	font-size-adjust: none;
+	font-stretch: normal;
+	font-feature-settings: normal;
+	font-language-override: normal;
+	font-kerning: auto;
+	font-synthesis: weight style;
+	font-variant-alternates: normal;
+	font-variant-caps: normal;
+	font-variant-east-asian: normal;
+	font-variant-ligatures: normal;
+	font-variant-numeric: normal;
+	font-variant-position: normal;
+	font-size: 20px;
+	left: 0;
+	line-height: 1;
+	outline: 0;
+	overflow: hidden;
+	padding: 8px 16px;
+	position: absolute;
+	text-align: center;
+	text-decoration: none;
+	text-rendering: auto;
+	top: 0;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+.tut-manip {
+	background-color: #4caf50;
+	color: #ffffff;
+	display: inline-block;
+	padding-left: 8px;
+	padding-right: 8px;
+	text-align: center;
+}
+
+.tut-info {
+	background-color: #2196f3;
+	color: #ffffff;
+	display: inline-block;
+	padding-left: 8px;
+	padding-right: 8px;
+	text-align: center;
+}
+
+.tut-code::after, .tut-code::before {
+	content: "";
+	display: table;
+	clear: both
+}
+
+.tut-code {
+	padding-top: 0.01em;
+	padding-right: 16px;
+	padding-bottom: 0.01em;
+	padding-left: 16px;
+	margin-top: 16px;
+	margin-bottom: 16px;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #cccccc;
+	border-right-color: #cccccc;
+	border-bottom-color: #cccccc;
+	border-left-color: #cccccc;
+	border-image-source: none;
+	border-image-slice: 100% 100% 100% 100%;
+	border-image-width: 1 1 1 1;
+	border-image-outset: 0 0 0 0;
+	border-image-repeat: stretch stretch;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+	border-bottom-left-radius: 8px;
+}
+.view {
+	margin: 0px 0px 0px 5px;
+	padding: 0px;
+}
+.hide {
+	border: 1px solid grey;
+	margin: 0px 0px 0px 5px;
+	padding: 0px 0px 0px 15px;
+	max-height: 10px;
+	overflow: hidden;
+}
+input[type="checkbox"] {
+	margin: 0px 0px 0px 5px;
+	padding: 0px;
+}
+input[type="checkbox"]:checked + .hide {
+	max-height: 99em;
+}
+
+.ICON {
+	display: inline-block;
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	font-size-adjust: none;
+	font-stretch: normal;
+	font-feature-settings: normal;
+	font-language-override: normal;
+	font-kerning: auto;
+	font-synthesis: weight style;
+	font-variant-alternates: normal;
+	font-variant-caps: normal;
+	font-variant-east-asian: normal;
+	font-variant-ligatures: normal;
+	font-variant-numeric: normal;
+	font-variant-position: normal;
+	font-size: 24px;
+	text-rendering: auto;
+}
+
+.APARTE {
+	padding-top: 0.01em;
+	padding-right: 16px;
+	padding-bottom: 0.01em;
+	padding-left: 16px;
+	margin-top: 16px;
+	margin-bottom: 16px;
+	border-left-width: 6px;
+	border-left-style: solid;
+	border-left-color: #cccccc;
+	border-left-color: #2196f3;
+	color: #000000;
+	background-color: #f1f1f1;
+}
+
+
