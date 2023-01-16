@@ -1,4 +1,5 @@
-"use strict";
+import '../scripts/highlight.min.js';
+import 'https://unpkg.com/tippy.js@6';
 class IlTuto extends HTMLElement {
     constructor() {
         super(...arguments);
@@ -29,7 +30,7 @@ class IlTuto extends HTMLElement {
     createHljsContent(content) {
         var start = document.getElementById('start');
         var scriptTippy = document.createElement('script');
-        scriptTippy.innerText = "tippy('#tip-ts', {content: 'This is HTML Code' });";
+        scriptTippy.innerText = "tippy('#tip-html', {content: 'This is HTML Code' });";
         let code_items_total = new Array();
         var parser = new DOMParser();
         var doc = parser.parseFromString(content, 'text/html');

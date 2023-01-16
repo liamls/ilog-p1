@@ -28,12 +28,8 @@ class IlTuto extends HTMLElement {
 
   createHljsContent(content: string): void {
     var start = document.getElementById('start') as HTMLElement;
-    var script1 = document.createElement('script');
-    var script2 =document.createElement('script');
-    script2.setAttribute(
-      'id','test2'
-    );
-    script2.innerText="tippy('#tip-html', {content: 'This is HTML Code' });"
+    var scriptTippy =document.createElement('script');
+    scriptTippy.innerText="tippy('#tip-ts', {content: 'This is HTML Code' });"
     let code_items_total: HTMLElement[] = new Array();
     var parser = new DOMParser();
 	  var doc = parser.parseFromString(content, 'text/html');
@@ -59,7 +55,7 @@ class IlTuto extends HTMLElement {
           }
         });
       }
-      pre_item.appendChild(script2);
+      pre_item.appendChild(scriptTippy);
     });
     code_items_total.forEach(code_item => {
       let language = code_item.parentNode?.parentNode?.parentNode?.querySelector('header')?.textContent?.split('.')[1];
@@ -82,11 +78,9 @@ class IlTuto extends HTMLElement {
       code_item.appendChild(doc.createTextNode(content));
     });
     start.appendChild(doc.body);
-    script1.setAttribute(
-      'id','test1'
-    );
-    script1.innerText="hljs.highlightAll();";
-    start.appendChild(script1);
+    var scriptHljs = document.createElement('script');
+    scriptHljs.innerText="hljs.highlightAll();";
+    start.appendChild(scriptHljs);
   }
 }
 
