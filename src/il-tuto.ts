@@ -1,3 +1,5 @@
+const hljs = require('highlight.js');
+
 class IlTuto extends HTMLElement {
   
   private regexMap = new Map<string, RegExp>([
@@ -12,7 +14,7 @@ class IlTuto extends HTMLElement {
     if(inputFilePath) {
       pathFileToDisplay = inputFilePath.toString();
     }
-    this.extractContentFromHTMLFile(pathFileToDisplay, this)
+    this.extractContentFromHTMLFile(pathFileToDisplay, this);
   }
   
   extractContentFromHTMLFile(filePath: string, th: any) {
@@ -78,9 +80,7 @@ class IlTuto extends HTMLElement {
       code_item.appendChild(doc.createTextNode(content));
     });
     start.appendChild(doc.body);
-    var scriptHljs = document.createElement('script');
-    scriptHljs.innerText="hljs.highlightAll();";
-    start.appendChild(scriptHljs);
+    hljs.highlightAll();
   }
 }
 

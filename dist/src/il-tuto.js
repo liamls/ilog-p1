@@ -1,5 +1,5 @@
-import '../scripts/highlight.min.js';
-import 'https://unpkg.com/tippy.js@6';
+"use strict";
+const hljs = require('highlight.js');
 class IlTuto extends HTMLElement {
     constructor() {
         super(...arguments);
@@ -30,7 +30,7 @@ class IlTuto extends HTMLElement {
     createHljsContent(content) {
         var start = document.getElementById('start');
         var scriptTippy = document.createElement('script');
-        scriptTippy.innerText = "tippy('#tip-html', {content: 'This is HTML Code' });";
+        scriptTippy.innerText = "tippy('#tip-ts', {content: 'This is HTML Code' });";
         let code_items_total = new Array();
         var parser = new DOMParser();
         var doc = parser.parseFromString(content, 'text/html');
@@ -78,9 +78,7 @@ class IlTuto extends HTMLElement {
             code_item.appendChild(doc.createTextNode(content));
         });
         start.appendChild(doc.body);
-        var scriptHljs = document.createElement('script');
-        scriptHljs.innerText = "hljs.highlightAll();";
-        start.appendChild(scriptHljs);
+        hljs.highlightAll();
     }
 }
 customElements.define('il-tuto', IlTuto);
