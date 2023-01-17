@@ -8,7 +8,8 @@ class IlTuto extends HTMLElement {
         this.regexMap = new Map([
             ['html', /<[a-z\\\/]/],
             ['css', /([a-z]{2,}\s?{|px)/],
-            ['typescript', /(const|let|var|document.query)/]
+            ['typescript', /(const|let|var|document.query)/],
+            ['java', /(public|void|new|Object|if|add)/]
         ]);
     }
     connectedCallback() {
@@ -88,8 +89,7 @@ class IlTuto extends HTMLElement {
         div_items.forEach(div_item => {
             if (div_item.hasAttribute("tooltip")) {
                 tippy(div_item, {
-                    content: div_item.getAttribute("tooltip"),
-                    theme: 'light'
+                    content: div_item.getAttribute("tooltip")
                 });
             }
         });

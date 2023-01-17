@@ -5,7 +5,8 @@ class IlTuto extends HTMLElement {
   private regexMap = new Map<string, RegExp>([
     ['html', /<[a-z\\\/]/],
     ['css', /([a-z]{2,}\s?{|px)/],
-    ['typescript', /(const|let|var|document.query)/]
+    ['typescript', /(const|let|var|document.query)/],
+    ['java', /(public|void|new|Object|if|add)/]
   ]);
 
   connectedCallback() {
