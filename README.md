@@ -32,11 +32,12 @@ npm install il-tuto
 ## Fonctionnement
 
 ```mermaid
-sequenceDiagram
+ssequenceDiagram
     HTML random page->>+IlTuto: <il-tuto filePath="mypath"></il-tuto>
     IlTuto->>+XML: new XMLHttpRequest() -> xml.open(mypath);
-    XML-->>-IlTuto: return file content
-    IlTuto->>+IlTuto: get all codeItems and preItems
-    IlTuto->>+IlTuto: color all the HTML content
-    IlTuto-->>-HTML random page: return html colored content and append it to the page
+    XML-->>-IlTuto: retourne le contenu du fichier
+    IlTuto->>+IlTuto: récupère tous les codeItems et preItems
+    IlTuto->>+IlTuto: colore tout le contenu HTML
+    IlTuto-->>-HTML random page: retourner le contenu html coloré and l'ajoute à la page appelante
+
 ```
