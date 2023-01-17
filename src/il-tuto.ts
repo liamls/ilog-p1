@@ -1,5 +1,5 @@
 const hljs = require('highlight.js');
-
+const tippy = require('tippy.js').default;
 class IlTuto extends HTMLElement {
   
   private regexMap = new Map<string, RegExp>([
@@ -53,6 +53,7 @@ class IlTuto extends HTMLElement {
 	  const html = doc.body;
     const code_items = Array.from(html.querySelectorAll('code'));
     const pre_items = Array.from(html.querySelectorAll('pre'));
+    const div_items = Array.from(html.querySelectorAll('div'));
     pre_items.forEach(pre_item => {
       const code_items_in_pre = Array.from(pre_item.querySelectorAll('code'));
       pre_item.className = "coder";
@@ -89,6 +90,13 @@ class IlTuto extends HTMLElement {
       let content = code_item.textContent as string;
       code_item.textContent = '';
       code_item.appendChild(doc.createTextNode(content));
+    });
+    div_items.forEach(div_item => {
+      if(div_item.hasAttribute("tooltip")){
+            tippy(div_item, {
+                content: div_item.getAttribute("tooltip")
+            });
+      }
     });
     start.appendChild(doc.body);
     hljs.highlightAll();
