@@ -5,7 +5,7 @@
   "main": "dist/bundle.js",
   "files": ["/dist"],
   "scripts": {
-    "build": "mkdir -p dist/styles && cp ./styles/** ./dist/styles && tsc && browserify dist/src/il-tuto.js dist/src/il-tuto-legacyTest.js -o dist/bundle.js",
+    "build": "mkdir -p dist/styles && cp ./styles/** ./dist/styles && tsc && browserify dist/src/il-tuto.js -o dist/bundle.js",
     "type": "tsc --noEmit"
   },
   "author": "",
