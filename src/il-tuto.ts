@@ -16,14 +16,14 @@ class IlTuto extends HTMLElement {
       'rel','stylesheet'
     );
     styleSheet1.setAttribute(
-      'href','./styles/atom-one-dark.css'
+      'href','/node_modules/iltuto/dist/styles/atom-one-dark.css'
     );
     var styleSheet2 = document.createElement('link');
     styleSheet2.setAttribute(
       'rel','stylesheet'
     );
     styleSheet2.setAttribute(
-      'href','./styles/main.css'
+      'href','/node_modules/iltuto/dist/styles/main.css'
     );
     head.appendChild(styleSheet1);
     head.appendChild(styleSheet2);
