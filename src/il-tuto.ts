@@ -53,11 +53,37 @@ class IlTuto extends HTMLElement {
     var parser = new DOMParser();
 	  var doc = parser.parseFromString(content, 'text/html');
 	  const html = doc.body;
+    const code_items = Array.from(html.querySelectorAll('code'));
+    code_items.forEach(code_item => {
+      if(code_item.parentNode?.nodeName != "CODE" && code_item.parentNode?.nodeName != "PRE"){
+        const pre = doc.createElement("pre");
+        code_item.insertAdjacentElement('beforebegin', pre);
+        pre.appendChild(code_item);
+      } else if(code_item.parentNode?.nodeName == "CODE") {
+        if(code_item.parentNode?.parentNode?.nodeName != "CODE" && code_item.parentNode?.parentNode?.nodeName != "PRE"){
+          const pre = doc.createElement("pre");
+          code_item.parentElement?.insertAdjacentElement('beforebegin', pre);
+          pre.appendChild(code_item.parentElement as HTMLElement);
+        } else if (code_item.parentNode?.parentNode?.nodeName == "CODE") {
+          if(code_item.parentNode?.parentNode?.parentNode?.nodeName != "CODE" && code_item.parentNode?.parentNode?.parentNode?.nodeName != "PRE"){
+            const pre = doc.createElement("pre");
+            code_item.parentElement?.parentElement?.insertAdjacentElement('beforebegin', pre);
+            pre.appendChild(code_item.parentElement?.parentElement as HTMLElement);
+          } else if(code_item.parentNode?.parentNode?.parentNode?.nodeName == "CODE") {
+            if(code_item.parentNode?.parentNode?.parentNode?.parentNode?.nodeName != "CODE" && code_item.parentNode?.parentNode?.parentNode?.parentNode?.nodeName != "PRE"){
+              const pre = doc.createElement("pre");
+              code_item.parentElement?.parentElement?.parentElement?.insertAdjacentElement('beforebegin', pre);
+              pre.appendChild(code_item.parentElement?.parentElement?.parentElement as HTMLElement);
+            }
+          }
+        }
+      }
+    });
     const pre_items = Array.from(html.querySelectorAll('pre'));
     pre_items.forEach(pre_item => {
-      const code_items = Array.from(pre_item.querySelectorAll('code'));
+      const code_items_in_pre = Array.from(pre_item.querySelectorAll('code'));
       pre_item.className = "coder";
-      if(code_items.length < 1) {
+      if(code_items_in_pre.length < 1) {
         let content = pre_item.textContent as string;
         pre_item.textContent = '';
         var code_item = doc.createElement('code');
@@ -65,7 +91,7 @@ class IlTuto extends HTMLElement {
         pre_item.appendChild(code_item);
         code_items_total.push(code_item);
       } else {
-        code_items.forEach(code_item => {
+        code_items_in_pre.forEach(code_item => {
           if(code_item.textContent == "	") {
             code_item.remove();
           } else {
