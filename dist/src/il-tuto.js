@@ -38,8 +38,6 @@ class IlTuto extends HTMLElement {
     }
     createHljsContent(content) {
         var start = document.getElementById('start');
-        var scriptTippy = document.createElement('script');
-        scriptTippy.innerText = "tippy('#tip-ts', {content: 'This is HTML Code' });";
         let code_items_total = new Array();
         var parser = new DOMParser();
         var doc = parser.parseFromString(content, 'text/html');
@@ -67,7 +65,6 @@ class IlTuto extends HTMLElement {
                     }
                 });
             }
-            pre_item.appendChild(scriptTippy);
         });
         code_items_total.forEach(code_item => {
             var _a, _b, _c, _d, _e;
@@ -81,7 +78,6 @@ class IlTuto extends HTMLElement {
                 }
             }
             code_item.setAttribute('class', 'language-' + language);
-            code_item.setAttribute('id', 'tip-' + language);
             let content = code_item.textContent;
             code_item.textContent = '';
             code_item.appendChild(doc.createTextNode(content));

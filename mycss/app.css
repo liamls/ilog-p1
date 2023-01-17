@@ -2,7 +2,6 @@
 @import url("tutorial.css");
 @import url("w3.css");
 @import url("w3-theme-blue.css");
-@import url("tippy.js/dist/tippy.css");
 .w3-row .w3-col {
 	overflow: auto;
 }

@@ -22,7 +22,8 @@ Ce composant permettra également d'afficher des infos bulles pour avoir des inf
 npm install il-tuto
 ```
 
-2. Appeler notre composant via la balise (avec la source qui a pour entrée le fichier qu'on veut traiter, ici TSWebProg.html)
+2. Appeler notre composant via la balise (avec la source qui a pour entrée le fichier qu'on veut traiter, ici TSWebProg.html) 
+:warning: Ne pas oublier d'intégrer la balise script qui a pour source le script exporté dans le package qu'il faut utiliser (bundle.js)
 ```
 <il-tuto filePath="/ressources/TSWebProg.html"></il-tuto>
 <script src="node_modules/iltuto/dist/bundle.js"></script>
