@@ -54,31 +54,6 @@ class IlTuto extends HTMLElement {
 	  var doc = parser.parseFromString(content, 'text/html');
 	  const html = doc.body;
     const code_items = Array.from(html.querySelectorAll('code'));
-    code_items.forEach(code_item => {
-      if(code_item.parentNode?.nodeName != "CODE" && code_item.parentNode?.nodeName != "PRE"){
-        const pre = doc.createElement("pre");
-        code_item.insertAdjacentElement('beforebegin', pre);
-        pre.appendChild(code_item);
-      } else if(code_item.parentNode?.nodeName == "CODE") {
-        if(code_item.parentNode?.parentNode?.nodeName != "CODE" && code_item.parentNode?.parentNode?.nodeName != "PRE"){
-          const pre = doc.createElement("pre");
-          code_item.parentElement?.insertAdjacentElement('beforebegin', pre);
-          pre.appendChild(code_item.parentElement as HTMLElement);
-        } else if (code_item.parentNode?.parentNode?.nodeName == "CODE") {
-          if(code_item.parentNode?.parentNode?.parentNode?.nodeName != "CODE" && code_item.parentNode?.parentNode?.parentNode?.nodeName != "PRE"){
-            const pre = doc.createElement("pre");
-            code_item.parentElement?.parentElement?.insertAdjacentElement('beforebegin', pre);
-            pre.appendChild(code_item.parentElement?.parentElement as HTMLElement);
-          } else if(code_item.parentNode?.parentNode?.parentNode?.nodeName == "CODE") {
-            if(code_item.parentNode?.parentNode?.parentNode?.parentNode?.nodeName != "CODE" && code_item.parentNode?.parentNode?.parentNode?.parentNode?.nodeName != "PRE"){
-              const pre = doc.createElement("pre");
-              code_item.parentElement?.parentElement?.parentElement?.insertAdjacentElement('beforebegin', pre);
-              pre.appendChild(code_item.parentElement?.parentElement?.parentElement as HTMLElement);
-            }
-          }
-        }
-      }
-    });
     const pre_items = Array.from(html.querySelectorAll('pre'));
     pre_items.forEach(pre_item => {
       const code_items_in_pre = Array.from(pre_item.querySelectorAll('code'));
