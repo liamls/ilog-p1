@@ -38,6 +38,6 @@ sequenceDiagram
     XML-->>-IlTuto: retourne le contenu du fichier
     IlTuto->>+IlTuto: récupère tous les codeItems et preItems
     IlTuto->>+IlTuto: colore tout le contenu HTML
-    IlTuto-->>-page HTML: retourner le contenu html coloré and l'ajoute à la page appelante
+    IlTuto-->>-page HTML: retourne le contenu html coloré and l'ajoute à la page appelante
 
 ```
