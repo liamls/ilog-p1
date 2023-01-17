@@ -8,17 +8,18 @@ class IlTuto extends HTMLElement {
         this.regexMap = new Map([
             ['html', /<[a-z\\\/]/],
             ['css', /([a-z]{2,}\s?{|px)/],
-            ['typescript', /(const|let|var|document.query)/]
+            ['typescript', /(const|let|var|document.query)/],
+            ['java', /(public|void|new|Object|if|add)/]
         ]);
     }
     connectedCallback() {
         var head = document.getElementsByTagName('head')[0];
         var styleSheet1 = document.createElement('link');
         styleSheet1.setAttribute('rel', 'stylesheet');
-        styleSheet1.setAttribute('href', './styles/atom-one-dark.css');
+        styleSheet1.setAttribute('href', '/node_modules/iltuto/dist/styles/atom-one-dark.css');
         var styleSheet2 = document.createElement('link');
         styleSheet2.setAttribute('rel', 'stylesheet');
-        styleSheet2.setAttribute('href', './styles/main.css');
+        styleSheet2.setAttribute('href', '/node_modules/iltuto/dist/styles/main.css');
         head.appendChild(styleSheet1);
         head.appendChild(styleSheet2);
         const inputFilePath = this.getAttribute('filePath');
@@ -88,8 +89,7 @@ class IlTuto extends HTMLElement {
         div_items.forEach(div_item => {
             if (div_item.hasAttribute("tooltip")) {
                 tippy(div_item, {
-                    content: div_item.getAttribute("tooltip"),
-                    theme: 'light'
+                    content: div_item.getAttribute("tooltip")
                 });
             }
         });

@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<!-- saved from url=(0095)https://mylearningspace.imt-nord-europe.fr/pluginfile.php/46222/mod_scorm/content/14/Tests.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>ILOG</title>
+    <meta name="author" content="Christophe TOMBELLE">
+    <link rel="stylesheet" href="./ILOG_files/app.css">
+</head>
+
+<body>
+    <header class="w3-container w3-theme">
+        <div id="links" selector="#slideContent" class="w3-bar w3-xlarge">
+            <a id="pres" tabindex="1" href="https://mylearningspace.imt-nord-europe.fr/pluginfile.php/46222/mod_scorm/content/14/presentation" class="slideShow1 w3-bar-item w3-button w3-hover-theme">Présentation</a>
+            <a id="planning" tabindex="2" href="https://mylearningspace.imt-nord-europe.fr/pluginfile.php/46222/mod_scorm/content/14/planning" class="slideShow1 w3-bar-item w3-button w3-hover-theme">Planning de travail</a>
+            <a id="projets" tabindex="3" href="https://mylearningspace.imt-nord-europe.fr/pluginfile.php/46222/mod_scorm/content/14/projects" class="slideShow1 w3-bar-item w3-button w3-hover-theme">Projets</a>
+            <a id="students" tabindex="4" href="https://mylearningspace.imt-nord-europe.fr/pluginfile.php/46222/mod_scorm/content/14/students" class="slideShow1 w3-bar-item w3-button w3-hover-theme">Étudiants</a>
+        </div>
+        <div id="title" class="w3-center">
+            <h1 class="w3-xxxlarge w3-animate-bottom">Ingénierie du logiciel</h1>
+            <h3>Bonnes pratiques de développement et programmation avancée</h3>
+        </div>
+    </header>
+
+    <div id="sidebar" hideif="mouseLeave" shownby=".show1" style="display: none;" class="show1 w3-card w3-col s5 w3-sidebar">
+    </div>
+
+    <div id="main" showif="closeToLeft" class="show1 w3-row w3-content">
+        <!-- <div id="buttons" class="w3-col s1">
+            <div class="w3-bar-block">
+                <i tabindex="4" showif="click"
+                    class="show1 fa fa-bars w3-center w3-button w3-bar-item w3-hover-theme"></i>
+                <span tabindex="5" class="upsls1   w3-center w3-button w3-bar-item w3-hover-theme">▲</span>
+                <span tabindex="6" class="prevsls1 w3-center w3-button w3-bar-item w3-hover-theme">❮❮</span>
+                <span tabindex="7" class="prevsld1 w3-center w3-button w3-bar-item w3-hover-theme">❮</span>
+                <span tabindex="8" class="nextsld1 w3-center w3-button w3-bar-item w3-hover-theme">❯</span>
+                <span tabindex="9" class="nextsls1 w3-center w3-button w3-bar-item w3-hover-theme">❯❯</span>
+            </div>
+            &nbsp;
+        </div> -->
+
+        <div id="component" tabindex="5" class="w3-col s11" slideshow=".slideShow1" default="presentation" toc="#sidebar" nextshow=".nextsls1" prevshow=".prevsls1" nextslide=".nextsld1" prevslide=".prevsld1">
+
+
+
+  
+  <title>Spécifications et tests automatisés</title>
+  <meta name="author" content="Christophe TOMBELLE">
+  <link rel="stylesheet" href="./ILOG_files/app.css">
+
+
+
+  <div class="w3-container">
+    <h1>Spécifications et tests automatisés</h1>
+
+    <div class="w3-card w3-margin tut-slide">
+      <header class="w3-padding w3-blue">Les bases d'un test unitaire simple</header>
+      <div class="w3-padding">
+        <p>Aucun développeur n'aurait l'idée d'écrire du code sans le tester, généralement en exécutant l'application
+          dont il fait partie et en interagissant avec. Mais les tests unitaires sont d'une autre nature, dans la mesure
+          où ils ne testent que ce code et non toute l'application.</p>
+        <ul>
+          <li>Les tests unitaires testent un code à la fois ;</li>
+          <li>Un code est généralement une classe.</li>
+          <li>les tests d'intégration testent ensemble des classes qui collaborent et dont les tests unitaires passent
+            OK.</li>
+          <li>L'exécution des deux types de tests est automatisée par un dérouleur de scénarios ;</li>
+          <li>Le test se met en position d'utilisateur du code à tester ;</li>
+          <li>on part d'un état réputé connu (e.g. état après instantiation) ;</li>
+          <li>[on appelle une méthode qui modifie l'état de l'objet ou du graphe d'objets] ;</li>
+          <li>on vérifie que le nouvel état est celui attendu au moyen d'une assertion ;</li>
+          <li>le dérouleur de scénarios comptabilise les défauts, le cas échéant pour en rendre compte en fin
+            d'exécution.</li>
+        </ul>
+        <p><em>NB</em></p>
+        <ul>
+          <li>La classe à tester unitairement peut n'être qu'une ébauche. Dans ce cas, il est normal que l'exécution du
+            test comptabilise des défauts.</li>
+        </ul>
+        <div class="w3-card w3-margin">
+          <header class="w3-padding w3-light-grey">CounterTest.java</header>
+          <div class="w3-padding w3-leftbar w3-border-green">
+            <pre><code class="java hljs language-typescript">package fr.<span class="hljs-property">imtne</span>.<span class="hljs-property">ilog</span>;
+    
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">Assert</span>.<span class="hljs-property">assertEquals</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CounterTest</span> {
+  <span class="hljs-keyword">protected</span> <span class="hljs-title class_">Counter</span> tested;
+
+  <span class="hljs-meta">@Test</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testCounter</span>(<span class="hljs-params"></span>) {
+    tested = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Counter</span>();
+    <span class="hljs-title function_">assertEquals</span>(<span class="hljs-number">0</span>, tested.<span class="hljs-title function_">getValue</span>());
+  }
+  
+  <span class="hljs-meta">@Test</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testUp</span>(<span class="hljs-params"></span>) {
+    tested = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Counter</span>();
+    tested.<span class="hljs-title function_">up</span>();
+    <span class="hljs-title function_">assertEquals</span>(<span class="hljs-number">1</span>, tested.<span class="hljs-title function_">getValue</span>());
+  }
+}
+</code></pre>
+          </div>
+        </div>
+
+        <p><em>NB</em></p>
+        <ul>
+          <li>l'importation de la méthode statique <code>assertEquals()</code>
+            de la classe <code>org.junit.Assert</code>.</li>
+          <li><code>import static</code> importe les membres statiques d'une
+            classe ;</li>
+          <li>on peut ainsi les utiliser (<code>assertEquals</code>) sans les
+            préfixer par le nom de leur classe ;</li>
+        </ul>
+        <p>---</p>
+        <div class="w3-card w3-margin">
+          <header class="w3-padding w3-light-grey">Counter.java, la classe à tester</header>
+          <div class="w3-padding w3-leftbar w3-border-green">
+            <pre><code class="java hljs language-typescript">package fr.<span class="hljs-property">imtne</span>.<span class="hljs-property">ilog</span>;
+  
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Counter</span> {
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">up</span>(<span class="hljs-params"></span>) {
+  }
+
+  <span class="hljs-keyword">public</span> int <span class="hljs-title function_">getValue</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+  }
+}
+</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="w3-card w3-margin tut-slide">
+      <header class="w3-padding w3-blue">Frameworks de tests</header>
+      <div class="w3-padding">
+        <em>JUnit</em>
+        <p>JUnit est un outil écrit en Java pour faciliter la création de
+          scénarii de tests unitaires.<br>
+        </p>
+        <p>Annotations</p>
+        <ul>
+          <li><code>Test</code>, <code>Before</code> et <code>After</code>
+            ne sont ni des classes ni des interfaces mais des <span class="w3-text-blue">annotations</span>
+            ;</li>
+          <li>une annotation peut cibler une classe, un champ, une méthode
+            (c'est le cas ici), un paramètre ;</li>
+          <li>les méthodes annotées par <code>@Test</code> sont des
+            méthodes de test ;</li>
+          <li>le champ annoté par <code>@Rule</code> caractérise des
+            objets de JUnit :</li>
+          <ul>
+            <li>ici <code>TestName</code> est utilisé dans les méthodes
+              pour obtenir leur nom ;</li>
+          </ul>
+          <li>les méthodes annotées par <code>@Before</code> sont
+            exécutées avant chaque méthode de test :</li>
+          <ul>
+            <li>mise en place de l'environnement de test surtout s'il est
+              complexe ;</li>
+          </ul>
+          <li>les méthodes <code>@After</code> sont exécutées après
+            chaque méthode de test :</li>
+          <ul>
+            <li>recyclage de l'environnement de test.</li>
+          </ul>
+        </ul>
+        <p>JUnitCore </p>
+        <ul>
+          <li>est le "test runner" (dérouleur de scénario) de JUnit4 ;</li>
+          <li>est une application Java qui prend en argument le nom
+            qualifié d'une classe de test ;</li>
+          <li>charger en mémoire la classe de test ;</li>
+          <li>découvre automatiquement les méthodes annotées par <code>@Test</code>,
+            <code>@Before</code> ou <code>@After</code> ;
+          </li>
+          <li>crée automatiquement une instance de la classe de test ;</li>
+          <li>appelle automatiquement :</li>
+          <ul>
+            <li>les méthodes annotées par <code>Before</code> ;</li>
+            <li>une méthode annotée par <code>Test</code> ;</li>
+            <li>les méthodes annotées par <code>After</code> ;</li>
+          </ul>
+          <li>recommence avec une autre méthode annotée par <code>Test</code>...</li>
+        </ul>
+
+
+
+        <p>Suite de tests</p>
+        <ul>
+          <li>Une suite de tests sert à lancer d'autres tests ;</li>
+          <li>un test runner la voit comme un test.</li>
+        </ul>
+
+
+
+      </div>
+    </div>
+
+
+
+    <div class="w3-card w3-margin tut-slide">
+      <header class="w3-padding w3-blue">Fonctionnement d'un test JUnit</header>
+      <div class="w3-padding">
+        <p>Soit une classe de test RunnerTest.java. Elle ne teste rien. Elle
+          ne sert qu'à mettre en évidence le fonctionnement du dérouleur de
+          scénarios de JUnit.</p>
+        <div class="w3-card w3-margin">
+          <header class="w3-padding w3-light-grey">RunnerTest.java</header>
+          <div class="w3-padding w3-leftbar w3-border-green">
+            <pre><code class="java hljs language-typescript">package fr.<span class="hljs-property">imtne</span>.<span class="hljs-property">ilog</span>;
+
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">After</span>;
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">Before</span>;
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">Test</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RunnerTest</span> {
+	<span class="hljs-meta">@Rule</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-title class_">TestName</span> namTest = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TestName</span>();
+
+	<span class="hljs-meta">@Before</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setUp</span>() throws <span class="hljs-title class_">Exception</span> {
+		<span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(<span class="hljs-string">"setUp"</span>);
+	}
+
+	<span class="hljs-meta">@After</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">tearDown</span>() throws <span class="hljs-title class_">Exception</span> {
+		<span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(<span class="hljs-string">"tearDown"</span>);
+	}
+
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">test1</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(namTest.<span class="hljs-title function_">getMethodName</span>());
+	}
+
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">test2</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(namTest.<span class="hljs-title function_">getMethodName</span>());
+	}
+}
+</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="w3-card w3-margin tut-slide">
+      <header class="w3-padding w3-blue">Place des tests dans le process logiciel</header>
+      <div class="w3-padding">
+        <p>Les méthodes agiles les font intervenir précocément dans le process logiciel :</p>
+        <ul>
+          <li>Rédiger un scénario de test participe à l'effort de spécification ;</li>
+          <li>en mettant à l'épreuve les idées qu'on se fait des futurs objets ;</li>
+          <li>on précise sur des cas concrets le fonctionnement attendu.</li>
+        </ul>
+        <p>En phase de d'implémentation :</p>
+        <ul>
+          <li>leur exécution est intégrée au build automatisé (make, ant...) ;</li>
+          <li>ils guident le versioning : on archive chaque avancée dans l'implémentation ;</li>
+          <li>ils sont une unité de mesure de l'avancement d'un projet ;</li>
+          <li>le code testé et le code qui le teste sont archivés ensemble ;</li>
+          <li>l'implémentation s'arrête quand les tests passent OK ;</li>
+          <li>on ne développe que ce qui est nécessaire.</li>
+        </ul>
+
+        <div class="w3-card w3-margin tut-slide">
+          <header class="w3-padding w3-light-grey">build.xml</header>
+          <div class="w3-padding">
+            <pre><code class="xml hljs language-bash">&lt;?xml version=<span class="hljs-string">"1.0"</span> encoding=<span class="hljs-string">"UTF-8"</span>?&gt;
+    &lt;project basedir=<span class="hljs-string">"."</span> default=<span class="hljs-string">"all"</span> name=<span class="hljs-string">"fifolib"</span>&gt;
+      &lt;target name=<span class="hljs-string">"init"</span>&gt;
+        &lt;property location=<span class="hljs-string">"src"</span> name=<span class="hljs-string">"src.dir"</span> description=<span class="hljs-string">"Emplacement des codes sources de l'application"</span> /&gt;
+        &lt;property location=<span class="hljs-string">"bin"</span> name=<span class="hljs-string">"bin.dir"</span> description=<span class="hljs-string">"Emplacement des classes applicatives compilées"</span> /&gt;
+        &lt;property location=<span class="hljs-string">"doc"</span> name=<span class="hljs-string">"javadoc.dir"</span> description=<span class="hljs-string">"Emplacement de la JavaDoc générée"</span> /&gt;
+    
+    		&lt;property location=<span class="hljs-string">"src-tests"</span> name=<span class="hljs-string">"tests.dir"</span> description=<span class="hljs-string">"Emplacement des codes sources des tests"</span> /&gt;
+        &lt;property location=<span class="hljs-string">"bin-tests"</span> name=<span class="hljs-string">"bin.tests.dir"</span> description=<span class="hljs-string">"Emplacement des classes de test compilées"</span> /&gt;
+        &lt;property location=<span class="hljs-string">"lib"</span> name=<span class="hljs-string">"junit.dir"</span> description=<span class="hljs-string">"Emplacement de junit4.jar"</span> /&gt;
+        &lt;property location=<span class="hljs-string">"<span class="hljs-variable">${junit.dir}</span>/hamcrest.core.jar"</span> name=<span class="hljs-string">"hamcrest.jar"</span> description=<span class="hljs-string">"hamcrest.jar"</span> /&gt;
+        &lt;property location=<span class="hljs-string">"doc-tests"</span> name=<span class="hljs-string">"tests.doc.dir"</span> description=<span class="hljs-string">"Emplacement de la doc générée pour les tests"</span> /&gt;
+        &lt;property location=<span class="hljs-string">"<span class="hljs-variable">${tests.doc.dir}</span>/javadoc"</span> name=<span class="hljs-string">"tests.javadoc.dir"</span> description=<span class="hljs-string">"Emplacement de la JavaDoc des tests"</span> /&gt;
+        &lt;property location=<span class="hljs-string">"<span class="hljs-variable">${tests.doc.dir}</span>/reports"</span> name=<span class="hljs-string">"testreports.dir"</span> description=<span class="hljs-string">"Emplacement des rapports d'exécution des tests"</span> /&gt;
+        &lt;property location=<span class="hljs-string">"<span class="hljs-variable">${tests.doc.dir}</span>/junitdoc"</span> name=<span class="hljs-string">"junitdoc.dir"</span> description=<span class="hljs-string">"Emplacement de la JUnitDoc"</span> /&gt;
+    
+        &lt;property name=<span class="hljs-string">"project.name"</span> value=<span class="hljs-string">"<span class="hljs-variable">${ant.project.name}</span>"</span> description=<span class="hljs-string">"Nom du projet"</span> /&gt;
+        &lt;property location=<span class="hljs-string">"<span class="hljs-variable">${project.name}</span>.jar"</span> name=<span class="hljs-string">"jar"</span> description=<span class="hljs-string">"Nom du jar de déploiement de l'application"</span> /&gt;
+    
+        &lt;path <span class="hljs-built_in">id</span>=<span class="hljs-string">"src.path"</span> description=<span class="hljs-string">"Source path application"</span>&gt;
+          &lt;pathelement location=<span class="hljs-string">"<span class="hljs-variable">${src.dir}</span>"</span> /&gt;
+        &lt;/path&gt;
+    
+    		&lt;path <span class="hljs-built_in">id</span>=<span class="hljs-string">"tests.path"</span> description=<span class="hljs-string">"Source path des tests"</span>&gt;
+          &lt;pathelement location=<span class="hljs-string">"<span class="hljs-variable">${tests.dir}</span>"</span> /&gt;
+        &lt;/path&gt;
+        &lt;path <span class="hljs-built_in">id</span>=<span class="hljs-string">"junit.class.path"</span> description=<span class="hljs-string">"Class path de junit4.jar"</span>&gt;
+          &lt;pathelement location=<span class="hljs-string">"<span class="hljs-variable">${junit.dir}</span>/junit4.jar"</span> /&gt;
+          &lt;pathelement location=<span class="hljs-string">"<span class="hljs-variable">${hamcrest.jar}</span>"</span> /&gt;
+        &lt;/path&gt;
+        &lt;path <span class="hljs-built_in">id</span>=<span class="hljs-string">"tests.class.path"</span> description=<span class="hljs-string">"Class path nécessaire aux tests"</span>&gt;
+          &lt;pathelement location=<span class="hljs-string">"<span class="hljs-variable">${bin.dir}</span>"</span> /&gt;
+          &lt;pathelement location=<span class="hljs-string">"<span class="hljs-variable">${bin.tests.dir}</span>"</span> /&gt;
+          &lt;path refid=<span class="hljs-string">"junit.class.path"</span> /&gt;
+        &lt;/path&gt;
+    	&lt;/target&gt;
+    
+      &lt;target depends=<span class="hljs-string">"init"</span> name=<span class="hljs-string">"compile"</span>&gt;
+        &lt;<span class="hljs-built_in">mkdir</span> <span class="hljs-built_in">dir</span>=<span class="hljs-string">"<span class="hljs-variable">${bin.dir}</span>"</span> /&gt;
+        &lt;javac debug=<span class="hljs-string">"true"</span> includeantruntime=<span class="hljs-string">"false"</span> deprecation=<span class="hljs-string">"true"</span> destdir=<span class="hljs-string">"<span class="hljs-variable">${bin.dir}</span>"</span>&gt;
+          &lt;src refid=<span class="hljs-string">"src.path"</span> /&gt;
+        &lt;/javac&gt;
+      &lt;/target&gt;
+    
+      &lt;target depends=<span class="hljs-string">"compile"</span> name=<span class="hljs-string">"testscompile"</span>&gt;
+        &lt;<span class="hljs-built_in">mkdir</span> <span class="hljs-built_in">dir</span>=<span class="hljs-string">"<span class="hljs-variable">${bin.tests.dir}</span>"</span> /&gt;
+        &lt;javac debug=<span class="hljs-string">"true"</span> includeantruntime=<span class="hljs-string">"false"</span> deprecation=<span class="hljs-string">"true"</span> destdir=<span class="hljs-string">"<span class="hljs-variable">${bin.tests.dir}</span>"</span>&gt;
+          &lt;src refid=<span class="hljs-string">"tests.path"</span> /&gt;
+          &lt;classpath refid=<span class="hljs-string">"tests.class.path"</span> /&gt;
+        &lt;/javac&gt;
+      &lt;/target&gt;
+    
+      &lt;target depends=<span class="hljs-string">"compile"</span> name=<span class="hljs-string">"jar"</span>&gt;
+        &lt;jar basedir=<span class="hljs-string">"<span class="hljs-variable">${bin.dir}</span>"</span> compress=<span class="hljs-string">"true"</span> jarfile=<span class="hljs-string">"<span class="hljs-variable">${jar}</span>"</span> /&gt;
+      &lt;/target&gt;
+    
+      &lt;target depends=<span class="hljs-string">"jar, javadoc"</span> description=<span class="hljs-string">"Do everything for app."</span> name=<span class="hljs-string">"allapp"</span> /&gt;
+    	&lt;target depends=<span class="hljs-string">"jar, junitdoc, testsjavadoc"</span> description=<span class="hljs-string">"Build everything."</span> name=<span class="hljs-string">"all"</span> /&gt;
+      &lt;target depends=<span class="hljs-string">"init"</span> description=<span class="hljs-string">"Clean all build products."</span> name=<span class="hljs-string">"clean"</span>&gt;
+        &lt;delete <span class="hljs-built_in">dir</span>=<span class="hljs-string">"<span class="hljs-variable">${bin.dir}</span>"</span> /&gt;
+        &lt;delete file=<span class="hljs-string">"<span class="hljs-variable">${jar}</span>"</span> /&gt;
+        &lt;delete <span class="hljs-built_in">dir</span>=<span class="hljs-string">"<span class="hljs-variable">${javadoc.dir}</span>"</span> /&gt;
+    		&lt;delete <span class="hljs-built_in">dir</span>=<span class="hljs-string">"<span class="hljs-variable">${bin.tests.dir}</span>"</span> /&gt;
+        &lt;delete <span class="hljs-built_in">dir</span>=<span class="hljs-string">"<span class="hljs-variable">${tests.doc.dir}</span>"</span> /&gt;	&lt;/target&gt;
+    
+      &lt;target depends=<span class="hljs-string">"init"</span> description=<span class="hljs-string">"Javadoc for <span class="hljs-variable">${project.name}</span>."</span> name=<span class="hljs-string">"javadoc"</span>&gt;
+        &lt;<span class="hljs-built_in">mkdir</span> <span class="hljs-built_in">dir</span>=<span class="hljs-string">"<span class="hljs-variable">${javadoc.dir}</span>"</span> /&gt;
+        &lt;javadoc destdir=<span class="hljs-string">"<span class="hljs-variable">${javadoc.dir}</span>"</span> packagenames=<span class="hljs-string">"*"</span>&gt;
+          &lt;sourcepath refid=<span class="hljs-string">"src.path"</span> /&gt;
+        &lt;/javadoc&gt;
+      &lt;/target&gt;
+    
+    	&lt;target depends=<span class="hljs-string">"javadoc"</span> description=<span class="hljs-string">"Javadoc for <span class="hljs-variable">${project.name}</span> tests."</span> name=<span class="hljs-string">"testsjavadoc"</span>&gt;
+        &lt;<span class="hljs-built_in">mkdir</span> <span class="hljs-built_in">dir</span>=<span class="hljs-string">"<span class="hljs-variable">${tests.javadoc.dir}</span>"</span> /&gt;
+        &lt;javadoc destdir=<span class="hljs-string">"<span class="hljs-variable">${tests.javadoc.dir}</span>"</span> packagenames=<span class="hljs-string">"*"</span>&gt;
+          &lt;sourcepath refid=<span class="hljs-string">"tests.path"</span> /&gt;
+          &lt;classpath refid=<span class="hljs-string">"tests.class.path"</span> /&gt;
+        &lt;/javadoc&gt;
+      &lt;/target&gt;
+    
+      &lt;target depends=<span class="hljs-string">"testscompile"</span> description=<span class="hljs-string">"Runs tests for <span class="hljs-variable">${project.name}</span>"</span> name=<span class="hljs-string">"tests"</span>&gt;
+        &lt;<span class="hljs-built_in">mkdir</span> <span class="hljs-built_in">dir</span>=<span class="hljs-string">"<span class="hljs-variable">${testreports.dir}</span>"</span> /&gt;
+        &lt;junit fork=<span class="hljs-string">"true"</span> haltonfailure=<span class="hljs-string">"true"</span> printsummary=<span class="hljs-string">"withOutAndErr"</span> showoutput=<span class="hljs-string">"true"</span>&gt;
+          &lt;formatter <span class="hljs-built_in">type</span>=<span class="hljs-string">"plain"</span> usefile=<span class="hljs-string">"false"</span> /&gt;
+          &lt;formatter <span class="hljs-built_in">type</span>=<span class="hljs-string">"xml"</span> /&gt;
+          &lt;classpath refid=<span class="hljs-string">"tests.class.path"</span> /&gt;
+          &lt;<span class="hljs-built_in">test</span> name=<span class="hljs-string">"fr.imtne.ilog.FifoTest"</span> todir=<span class="hljs-string">"<span class="hljs-variable">${testreports.dir}</span>"</span> /&gt;
+        &lt;/junit&gt;
+      &lt;/target&gt;
+    
+      &lt;target depends=<span class="hljs-string">"tests"</span> name=<span class="hljs-string">"junitdoc"</span> description=<span class="hljs-string">"Génération du rapport de tests"</span>&gt;
+        &lt;<span class="hljs-built_in">mkdir</span> <span class="hljs-built_in">dir</span>=<span class="hljs-string">"<span class="hljs-variable">${junitdoc.dir}</span>"</span> /&gt;
+        &lt;junitreport todir=<span class="hljs-string">"<span class="hljs-variable">${junitdoc.dir}</span>"</span>&gt;
+          &lt;fileset <span class="hljs-built_in">dir</span>=<span class="hljs-string">"<span class="hljs-variable">${testreports.dir}</span>"</span>&gt;
+            &lt;include name=<span class="hljs-string">"TEST-*.xml"</span> /&gt;
+          &lt;/fileset&gt;
+          &lt;report format=<span class="hljs-string">"frames"</span> todir=<span class="hljs-string">"<span class="hljs-variable">${junitdoc.dir}</span>"</span> /&gt;
+        &lt;/junitreport&gt;
+      &lt;/target&gt;
+    &lt;/project&gt;</code></pre>
+          </div>
+        </div>
+
+        <p>Dans un process d'intégration continue, la plateforme exécute régulièrement les tests.</p>
+        <p>En phase de maintenance évolutive :</p>
+        <ul>
+          <li>ils favorisent la refactorisation du code ;</li>
+          <li>un code bien structuré facilite l'ajout de fonctionnalités.</li>
+        </ul>
+        <p>En phase de maintenance corrective :</p>
+        <ul>
+          <li>on écrit de nouveaux tests qui révèlent le bug ;</li>
+          <li>on corrige le bug pour que les nouveaux tests passent OK ;</li>
+          <li>on archive les tests et le code corrigé.</li>
+          <li>On vérifie qu'on introduit pas un autre bug.</li>
+        </ul>
+        <p><em>Attention</em></p>
+        <p>Les tests sont :</p>
+        <ul>
+          <li>capables de révéler la présence de bugs ;</li>
+          <li>incapables de garantir leur absence.</li>
+        </ul>
+      </div>
+    </div>
+
+
+
+    <div class="w3-card w3-margin tut-slide">
+      <header class="w3-padding w3-blue">Modélisation</header>
+      <div class="w3-padding">
+        <p>Rédiger un test suppose qu'on ait des idées sur :</p>
+        <ul>
+          <li>les services offerts par un ou plusieurs objets qui collaborent.</li>
+          <li>Le process logiciel commence par la modélisation.</li>
+        </ul>
+        <p>Les scénarios d'utilisation :</p>
+        <ul>
+          <li>permettent de découvrir les classes et leurs méthodes de haut niveau ;</li>
+          <li>mettent en jeu plusieurs classes dans différentes circonstances.</li>
+          <li>On pense à la façon dont on voudrait utiliser les objets à concevoir.</li>
+          <li>On peut définir des interfaces qu'une classe doit réaliser.</li>
+          <li>Une interface formalise les besoins des objets utilisateurs.</li>
+          <ul>
+            <li>objet utilisateur =&gt; besoins =&gt; méthodes =&gt; interface.</li>
+            <li>autre objet utilisateur =&gt; autres besoins =&gt; autres méthodes =&gt; autre interface.</li>
+          </ul>
+          <li>e.g. Une classe Fifo permet un dialogue asynchrone entre un objet qui produit des messages et un objet qui
+            les consomme. Elle implémente :</li>
+          <ul>
+            <li>une interface FifoHead pour l'objet consommateur ;</li>
+            <li>et une interface FifoQueue pour l'objet producteur. </li>
+          </ul>
+        </ul>
+        <p>Avec le générateur de code d'un outil de modélisation, on peut créer des ébauches de code.</p>
+        <p>Faute d'outils de modélisation ou en complément, on peut coder les scénarios d'utilisation pour :</p>
+        <ul>
+          <li>découvrir les classes et leurs méthodes publiques ;</li>
+          <li>créer les ébauches des classes avec des méthodes publiques "vides" qui retournent 0,
+            <code>null</code> ou <code>false</code>.
+          </li>
+          <li>assurer une première cohérence grâce au compilateur.</li>
+        </ul>
+      </div>
+    </div>
+
+
+
+    <div class="w3-card w3-margin tut-slide">
+      <header class="w3-padding w3-blue">Effort de spécification</header>
+      <div class="w3-padding">
+        <p>Documenter le quoi</p>
+        <ul>
+          <li>Le "quoi" (spécification) avant le "comment" (implémentation) !</li>
+          <li>Une fois découvertes les classes et leurs méthodes publiques, tout n'est pas complètement spécifié.</li>
+          <li>La rédaction de la JavaDoc participe à l'effort de spécification.</li>
+        </ul>
+        <p>Rédiger la JavaDoc :</p>
+        <ul>
+          <li>de chaque classe ;</li>
+          <li>de chaque méthode publique ;</li>
+          <li>pousse à réfléchir à ce qu'on conçoit ;</li>
+          <li>met à l'épreuve les idées qu'on se fait des futurs objets.</li>
+        </ul>
+      </div>
+    </div>
+
+
+
+    <div class="w3-card w3-margin tut-slide">
+      <header class="w3-padding w3-blue">Démarche de conception guidée par les tests</header>
+      <div class="w3-padding">
+        <p>La rédaction des tests unitaires participe à l'effort de spécification.</p>
+        <ul>
+          <li>Les tests complètent la JavaDoc. Ils :</li>
+          <ul>
+            <li>précisent sur des cas concrets le fonctionnement attendu ;</li>
+            <li>mettent <u>un peu plus</u> à l'épreuve les idées qu'on se fait des futurs objets ; </li>
+            <li>doivent vérifier les affirmations de la JavaDoc.</li>
+          </ul>
+          <li>Une réflexion précoce sur les cas limites :</li>
+          <ul>
+            <li>est structurante ;</li>
+            <li>conduit généralement in fine à un code plus maintenable.</li>
+          </ul>
+        </ul>
+      </div>
+    </div>
+
+
+
+    <div class="w3-card w3-margin tut-slide">
+      <header class="w3-padding w3-blue">Plateforme d'intégration continue</header>
+      <div class="w3-padding">
+        <p>Une telle plateforme :</p>
+        <ul>
+          <li>est notifiée des nouveaux archivages ;</li>
+          <li>récupère ainsi les nouveaux codes et leurs tests ;</li>
+          <li>exécute régulièrement les tests :</li>
+          <ul>
+            <li>unitaires des classes implémentées ;</li>
+            <li>d'intégration de classes dont les tests unitaires passent OK.</li>
+          </ul>
+          <li>est une base de mesure de l'avancement d'un projet.</li>
+        </ul>
+      </div>
+    </div>
+
+
+
+    <div class="w3-card w3-margin tut-slide">
+      <header class="w3-padding w3-blue">Qualités requises pour de bons tests unitaires</header>
+      <div class="w3-padding">
+        <p>Unitaires</p>
+        <ul>
+          <li>On localise plus facilement un bug.</li>
+          <li>Lors de la rédaction des tests, on se focalise sur le code à tester, ce qui met de l'enjeu sur sa qualité.
+          </li>
+          <li>Il n'est pas besoin d'attendre que les codes partenaires soient développés.</li>
+        </ul>
+        <p>Automatisés</p>
+        <ul>
+          <li>Aucune connaissance n'est nécessaires pour les lancer et constater qu'ils fonctionnent.</li>
+          <li>On peut les exécuter d'un simple clic ;</li>
+        </ul>
+        <p>Organisés en suites de tests</p>
+        <ul>
+          <li>On peut faire des suites de tests et une suite de tests est un test, donc on peut faire des suites de
+            suites.</li>
+          <li>On peut exécuter l'ensemble des tests d'un simple clic.</li>
+        </ul>
+        <p>Simples à mettre en oeuvre :</p>
+        <ul>
+          <li>Il n'est pas besoin de préparer un environnement spécifique ;</li>
+        </ul>
+        <p>Rapides à exécuter</p>
+        <ul>
+          <li>Pour tester une horloge hebdomadaire, on n'a pas besoin d'attendre une semaine ;</li>
+        </ul>
+        <p>Simples à écrire (notamment à l'aide d'un framework de test) ;</p>
+        <ul>
+          <li>Un framework de tests facilite la rédaction et l'exécution des tests</li>
+          <li>Le code peut être rendu (plus facilement) testable.</li>
+        </ul>
+        <p>Faciles à (re)lire même par un autre développeur.</p>
+        <ul>
+          <li>Les assertions doivent être simples à comprendre.</li>
+          <li>Certains langages d'assertions se rapprochent du langage naturel.</li>
+        </ul>
+      </div>
+    </div>
+
+
+
+    <div class="w3-card w3-margin tut-slide">
+      <header class="w3-padding w3-blue">Intérêts des tests unitaires</header>
+      <div class="w3-padding">
+        <p>Les tests donnent confiance(*) pour modifier du code. Que ce soit pour :</p>
+        <ul>
+          <li>corriger un bug ;</li>
+          <li>ajouter une nouvelle fonctionnalité ;</li>
+          <li>le refactoriser, améliorer son architecture et faciliter ainsi :</li>
+          <ul>
+            <li>sa lisibilité ;</li>
+            <li>son évolutivité ;</li>
+            <li>sa maintenabilité.</li>
+          </ul>
+          <li>les tests existants détectent plus facilement la régression ;</li>
+        </ul>
+        <p>(*) Sans oublier cependant que des tests OK ne <u>garantissent</u> pas l'absence de bugs.</p>
+      </div>
+    </div>
+
+
+
+    <div class="w3-card w3-margin tut-slide">
+      <header class="w3-padding w3-blue">Que (ne pas) tester ?</header>
+      <div class="w3-padding">
+        <p>Inutile de tester :</p>
+        <ul>
+          <li>ce qui est manifestement trop simple pour "casser" :</li>
+          <ul>
+            <li>les accesseurs et mutateurs simples ;</li>
+          </ul>
+          <li>la bibliothèque Java ;</li>
+          <li>les bibliothèques réputées déjà testées.</li>
+        </ul>
+        <p>Penser à tester :</p>
+        <ul>
+          <li>les cas exceptionnels (qui "ne marchent pas") ;</li>
+          <li>qu'une exception se déclenche si elle doit ;</li>
+          <li>qu'une exception ne se déclenche pas si elle ne doit pas ;</li>
+          <li>les valeurs de retour ;</li>
+          <li>les valeurs limites ou spéciales. Une réflexion précoce sur les cas limites :</li>
+          <ul>
+            <li>est structurante ;</li>
+            <li>conduit généralement in fine à un code plus maintenable.</li>
+          </ul>
+        </ul>
+      </div>
+    </div>
+
+
+
+    <div class="w3-card w3-margin tut-slide">
+      <header class="w3-padding w3-blue">Tester l'état</header>
+      <div class="w3-padding">
+        <p>Tester l'état à l'aide d'assertions à propos :</p>
+        <ul>
+          <li>des résultats fournis par des méthodes purement fonctionnelles qui informent sur l'état de l'objet ;
+          </li>
+          <li>de résultats d'accesseurs ;</li>
+          <li>de compte-rendu fourni par la méthode modifiante dont on teste le comportement ;</li>
+        </ul>
+        <p>Tester :</p>
+        <ul>
+          <li>l'état après instantiation ;</li>
+          <li>l'évolution de l'état des objets ;</li>
+          <li>partir d'un état connu :</li>
+          <ul>
+            <li>état après instantiation ;</li>
+            <li>utiliser un mutateur simple ;</li>
+          </ul>
+          <li>appeler une méthode qui modifie l'état de l'objet ;</li>
+          <li>vérifier que le nouvel état est celui attendu.</li>
+        </ul>
+      </div>
+    </div>
+
+
+
+    <div class="w3-card w3-margin tut-slide">
+      <header class="w3-padding w3-blue">Techniques de test</header>
+      <div class="w3-padding">
+        <ul>
+          <li>Rédiger des scénarios de test de façon à décrire le comportement attendu de l'objet ;</li>
+          <li>ne tester qu'une seule chose à la fois : il vaut mieux multiplier les méthodes de test ;</li>
+          <li>repartir à chaque fois d'un état connu ;</li>
+          <li>il peut y avoir plusieurs méthodes de test pour une méthode modifiante testée ;</li>
+          <li>nommer les méthodes de test de façon à refléter ce qu'on teste ;</li>
+          <li>vérifier la cohérence par rapport à la JavaDoc.</li>
+        </ul>
+        <p>S'il est rébarbatif de mettre l'objet testé dans un état connu :</p>
+        <ul>
+          <li>définir dans la classe de test une méthode helper (avec paramètres) qui s'en charge ;</li>
+          <li>l'utiliser avec les bons arguments dans chaque méthode de test.</li>
+        </ul>
+        <p>Si la classe à tester n'a pas de méthode renseignant sur son état :</p>
+        <ul>
+          <li>redéfinir la méthode <code>Object#toString()</code> ;</li>
+          <li>représenter concisément l'objet en fonction de son état.</li>
+        </ul>
+      </div>
+    </div>
+
+
+
+    <div class="w3-card w3-margin tut-slide">
+      <header class="w3-padding w3-light-grey">FifoTest.java</header>
+      <div class="w3-padding w3-leftbar w3-border-green">
+        <pre><code class="java hljs language-typescript">package fr.<span class="hljs-property">imtne</span>.<span class="hljs-property">ilog</span>;
+
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">Before</span>;
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">Rule</span>;
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">Test</span>;
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">rules</span>.<span class="hljs-property">TestName</span>;
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">runner</span>.<span class="hljs-property">JUnitCore</span>;
+
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">Assert</span>.*;
+
+<span class="hljs-comment">/**
+ * JUnit test for fr.imtne.ilog.Fifo
+ * 
+ * <span class="hljs-doctag">@version</span> for JUnit4
+ * <span class="hljs-doctag">@author</span> Christophe TOMBELLE
+ */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FifoTest</span> {
+	<span class="hljs-keyword">protected</span> <span class="hljs-title class_">Double</span> o3, o4, o5;
+	<span class="hljs-keyword">protected</span> <span class="hljs-title class_">Fifo</span> fifo;
+	<span class="hljs-keyword">protected</span> <span class="hljs-title class_">FifoHead</span> fifoHead;
+	<span class="hljs-keyword">protected</span> <span class="hljs-title class_">FifoQueue</span> fifoQueue;
+	<span class="hljs-meta">@Rule</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-title class_">TestName</span> namTest = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TestName</span>();
+
+	<span class="hljs-comment">/**
+	 * Build objects useful to the test.
+	 */</span>
+	<span class="hljs-meta">@Before</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setUp</span>(<span class="hljs-params"></span>) {
+		o3 = <span class="hljs-number">3.</span>;
+		o4 = <span class="hljs-number">4.</span>;
+		o5 = <span class="hljs-number">5.</span>;
+		fifo = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Fifo</span>();
+		fifoHead = fifo;
+		fifoQueue = fifo;
+		<span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(namTest.<span class="hljs-title function_">getMethodName</span>());
+	}
+
+	<span class="hljs-comment">// helper methods</span>
+
+	<span class="hljs-comment">/**
+	 * Check the Fifo state : size and head signal.
+	 * 
+	 * <span class="hljs-doctag">@param</span> size    The expected size.
+	 * <span class="hljs-doctag">@param</span> headExp The expected signa.
+	 */</span>
+	<span class="hljs-keyword">protected</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">checkState</span>(<span class="hljs-params">int size, <span class="hljs-built_in">Object</span> headExp</span>) {
+		<span class="hljs-title function_">assertEquals</span>(size, fifo.<span class="hljs-title function_">getSize</span>());
+		<span class="hljs-title class_">Object</span> head = fifo.<span class="hljs-title function_">getHead</span>();
+		<span class="hljs-keyword">if</span> (headExp <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Integer</span>)
+			<span class="hljs-title function_">assertEquals</span>(headExp, head);
+		<span class="hljs-keyword">else</span>
+			<span class="hljs-title function_">assertSame</span>(headExp, head);
+	}
+
+	<span class="hljs-comment">/**
+	 * Fill the Fifo with the specified signals.
+	 * 
+	 * <span class="hljs-doctag">@param</span> signals The signals.
+	 */</span>
+	<span class="hljs-keyword">protected</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">fill</span>(<span class="hljs-params"><span class="hljs-built_in">Object</span>... signals</span>) {
+		<span class="hljs-keyword">for</span> (int i = <span class="hljs-number">0</span>; i &lt; signals.<span class="hljs-property">length</span>; i++)
+			fifoQueue.<span class="hljs-title function_">add</span>(signals[i]);
+	}
+
+	<span class="hljs-comment">/**
+	 * Remove n signals from the Fifo.
+	 * 
+	 * <span class="hljs-doctag">@param</span> n The number of signals to remove.
+	 */</span>
+	<span class="hljs-keyword">protected</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">remove</span>(<span class="hljs-params">int n</span>) {
+		<span class="hljs-keyword">for</span> (int i = <span class="hljs-number">0</span>; i &lt; n; i++)
+			fifoHead.<span class="hljs-title function_">remove</span>();
+	}
+
+	<span class="hljs-comment">// test methods</span>
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testInitiallyEmpty</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-title function_">checkState</span>(<span class="hljs-number">0</span>, <span class="hljs-literal">null</span>);
+	}
+
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testRemoveEmptyFifo</span>(<span class="hljs-params"></span>) {
+		fifoHead.<span class="hljs-title function_">remove</span>();
+	}
+
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testSaveEmptyFifo</span>(<span class="hljs-params"></span>) {
+		fifoHead.<span class="hljs-title function_">save</span>(<span class="hljs-title class_">Double</span>.<span class="hljs-property">class</span>);
+		fifoHead.<span class="hljs-title function_">save</span>(<span class="hljs-number">4</span>);
+	}
+
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testAddNull</span>(<span class="hljs-params"></span>) {
+		fifoQueue.<span class="hljs-title function_">add</span>(<span class="hljs-literal">null</span>);
+		<span class="hljs-title function_">assertEquals</span>(<span class="hljs-number">0</span>, fifoHead.<span class="hljs-title function_">getSize</span>());
+	}
+
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testAddObjects</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-title function_">fill</span>(o5, o4, o3);
+		<span class="hljs-title function_">checkState</span>(<span class="hljs-number">3</span>, o5);
+	}
+
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testAddInts</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-title function_">fill</span>(<span class="hljs-number">5</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>);
+		<span class="hljs-title function_">checkState</span>(<span class="hljs-number">3</span>, <span class="hljs-number">5</span>);
+	}
+
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testRemoveObject</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-title function_">fill</span>(o5, o4, o3);
+		<span class="hljs-title function_">remove</span>(<span class="hljs-number">1</span>);
+		<span class="hljs-title function_">checkState</span>(<span class="hljs-number">2</span>, o4);
+	}
+
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testRemoveInt</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-title function_">fill</span>(<span class="hljs-number">5</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>);
+		<span class="hljs-title function_">remove</span>(<span class="hljs-number">1</span>);
+		<span class="hljs-title function_">checkState</span>(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>);
+	}
+
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testAddRemove</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-title function_">fill</span>(<span class="hljs-number">5</span>, o4, <span class="hljs-number">3</span>);
+		<span class="hljs-title function_">remove</span>(<span class="hljs-number">3</span>);
+		<span class="hljs-title function_">checkState</span>(<span class="hljs-number">0</span>, <span class="hljs-literal">null</span>);
+	}
+
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testSaveObjects</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-title function_">fill</span>(o5, o4, o3, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">5</span>);
+		fifoHead.<span class="hljs-title function_">save</span>(<span class="hljs-title class_">Double</span>.<span class="hljs-property">class</span>);
+		<span class="hljs-title function_">checkState</span>(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>);
+	}
+
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testSaveInts</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-title function_">fill</span>(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>, o3, o4, o5);
+		fifoHead.<span class="hljs-title function_">save</span>(<span class="hljs-number">3</span>);
+		<span class="hljs-title function_">checkState</span>(<span class="hljs-number">3</span>, o3);
+	}
+
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testAllSavedObjects</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-title function_">fill</span>(o5, o4, o3);
+		fifoHead.<span class="hljs-title function_">save</span>(<span class="hljs-title class_">Double</span>.<span class="hljs-property">class</span>);
+		<span class="hljs-title function_">checkState</span>(<span class="hljs-number">0</span>, <span class="hljs-literal">null</span>);
+	}
+
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testAllSavedInts</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-title function_">fill</span>(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>);
+		fifoHead.<span class="hljs-title function_">save</span>(<span class="hljs-number">3</span>);
+		<span class="hljs-title function_">checkState</span>(<span class="hljs-number">0</span>, <span class="hljs-literal">null</span>);
+	}
+
+	<span class="hljs-meta">@Test</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testSizeResetSaved</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-title function_">fill</span>(o5, o4, o3, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">5</span>);
+		fifoHead.<span class="hljs-title function_">save</span>(<span class="hljs-title class_">Double</span>.<span class="hljs-property">class</span>);
+		<span class="hljs-comment">// reset savings</span>
+		fifoHead.<span class="hljs-title function_">save</span>(<span class="hljs-literal">null</span>);
+		<span class="hljs-title function_">checkState</span>(<span class="hljs-number">6</span>, o5);
+	}
+
+	<span class="hljs-comment">/**
+	 * This test case has a main so that it can be launched as a standalone
+	 * application.
+	 * 
+	 * <span class="hljs-doctag">@param</span> straArgs The command line arguments (unused).
+	 */</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"><span class="hljs-built_in">String</span>[] straArgs</span>) {
+		JUnitCore.<span class="hljs-title function_">main</span>(<span class="hljs-string">"fr.imtne.ilog.FifoTest"</span>);
+	}
+}
+</code></pre>
+        <p>Avant de se laisser guider par les tests, il faut chercher à comprendre ce qu'il faut réaliser.</p>
+        <p>Le fait de se laisser guider par les tests ne doit pas empêcher de se livrer à une analyse du problème
+          que constitue le codage :</p>
+        <ul>
+          <li>quelles variables membres je vais mettre en place ?</li>
+          <li>pour quel rôle ?</li>
+          <li>avec quel cycle de vie ?</li>
+        </ul>
+    </div>
+  </div>
+
+
+
+  <div class="w3-card w3-margin tut-slide">
+    <header class="w3-padding w3-blue">Dépendance envers les objets partenaires.</header>
+    <div class="w3-padding">
+      <ul>
+        <li>La classe <code>Fifo</code> se teste facilement car elle ne dépend d'aucun autre objet si ce n'est un
+          objet liste réputé déjà testé.</li>
+        <li>Tout n'est pas toujours si simple.</li>
+        <li>Si la classe testée collabore avec une ou plusieurs autres classes, elle dépend de ces classes
+          partenaires.</li>
+        <li>Le test n'est alors plus unitaire :</li>
+        <ul>
+          <li>les classes partenaires doivent être testées et implémentées avant la classe qu'on voulait tester
+            initialement ;</li>
+          <li>la dépendance peut être bidirectionnelle : les classes doivent alors être testées et implémentées
+            conjointement ;</li>
+          <li>une classe partenaire peut elle-même collaborer avec une autre classe donc dépendre de cette autre
+            classe ;</li>
+          <li>cette chaîne de collaborations et de dépendances empêche le développement en parallèle par plusieurs
+            développeurs.</li>
+        </ul>
+      </ul>
+    </div>
+  </div>
+
+
+
+  <div class="w3-card w3-margin tut-slide">
+    <header class="w3-padding w3-blue">Dépendances externes</header>
+    <div class="w3-padding">
+      <p>La classe testée peut aussi dépendre d'une entité sur laquelle le test n'a pas de prise et qui est gérée
+        par le système d'exploitation :</p>
+      <ul>
+        <li>le temps qui passe ;</li>
+        <li>le système de fichiers ;</li>
+        <li>la mémoire ;</li>
+        <li>l'ordonnancement des threads.</li>
+      </ul>
+      <p>Exemple de dépendance externe directe (envers la gestion du temps) :</p>
+      <p><code>Clock</code>, l'objet testé, offre un service de calendrier <u>hebdomadaire</u> :</p>
+      <div class="w3-card w3-margin tut-slide">
+        <header class="w3-padding w3-light-grey">Clock.java</header>
+        <div class="w3-padding w3-leftbar w3-border-green">
+          <pre><code class="java hljs language-typescript">package fr.<span class="hljs-property">imtne</span>.<span class="hljs-property">ilog</span>;
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Clock</span> {
+      <span class="hljs-keyword">protected</span> long _lT0 = <span class="hljs-number">0</span>;
+    
+      <span class="hljs-keyword">protected</span> long <span class="hljs-title function_">now</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-title class_">System</span>.<span class="hljs-title function_">currentTimeMillis</span>();
+      }
+    
+      <span class="hljs-keyword">public</span> <span class="hljs-title class_">Clock</span>() {
+        _lT0 = <span class="hljs-title function_">now</span>();
+      }
+    
+      <span class="hljs-keyword">public</span> int <span class="hljs-title function_">getDay</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> (int) (<span class="hljs-title function_">now</span>() - _lT0) / <span class="hljs-number">86400000</span>;
+      }
+...    
+      <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setDay</span>(<span class="hljs-params">int iDay</span>) {
+        <span class="hljs-keyword">if</span> ((((int) (<span class="hljs-title function_">now</span>() - _lT0)) / <span class="hljs-number">86400000</span>) &lt; iDay) {
+          _lT0 = (long) (_lT0 - (iDay - (((int) (<span class="hljs-title function_">now</span>() - _lT0)) / <span class="hljs-number">86400000</span>)) * <span class="hljs-number">86400000</span>);
+        } <span class="hljs-keyword">else</span> {
+          _lT0 = (long) (_lT0 - ((((int) (<span class="hljs-title function_">now</span>() - _lT0)) / <span class="hljs-number">86400000</span>) - iDay) * <span class="hljs-number">86400000</span>);
+        }
+      }
+...    
+    }
+    </code></pre>
+        </div>
+      </div>
+      <ol>
+        <li>Il dépend de l'OS : <code>System.currentTimeMillis()</code> donne l'instant présent ;</li>
+        <li>il est hors de question qu'un test pertinent dure <u>une semaine</u>.</li>
+      </ol>
+    </div>
+  </div>
+
+
+
+  <div class="w3-card w3-margin tut-slide">
+    <header class="w3-padding w3-blue">Test unitaire en isolation</header>
+    <div class="w3-padding">
+      <ul>
+        <li>Dans un test dit unitaire, on cherche à tester une classe à la fois, même si elle a des objets
+          partenaires. On a alors recours à une technique d'isolation de la classe testée par rapport à ses
+          objets partenaires.</li>
+        <li>Dans un test en isolation, les objets partenaires sont remplacés par des objets factices qui peuvent être
+          soit des <span class="w3-text-blue">mocks</span> ("bidons", imités) soit des <span class="w3-text-blue">stubs</span> (bouchons) ;</li>
+        <li>en dehors du test, les objets partenaires sont les vrais objets.</li>
+      </ul>
+      <p>Dans un test unitaire en isolation, on va tester les collaborations entre objets :</p>
+      <ul>
+        <li>Au début du test, on part d'un état connu ;</li>
+        <li>on utilise une méthode qui déclenche la collaboration ;</li>
+        <li>à l'aide de méthodes qui informent sur l'état de l'objet mock, on vérifie que la collaboration a eu lieu.
+        </li>
+        <li>N'utiliser qu'un seul objet mock par méthode de test ;</li>
+        <li>remplacer les autres objets par des stubs.</li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  <div class="w3-card w3-margin tut-slide">
+    <header class="w3-padding w3-blue">L'objet factice :<em> "Yes, I'm the great pretender...</em></header>
+    <div class="w3-padding">
+      <p><i><span><em>...</em>I seem to be what I'm not (you see)"<br>
+            [Buck RAM 1955]<br>
+          </span></i></p>
+      <p>Les objets factices font illusion auprès de l'objet testé. Quand ce dernier appelle une de leurs méthodes, il
+        lui passe des arguments et, dans le cas d'une méthode fonctionnelle, récupère un résultat.</p>
+      <ul>
+        <li>L'objet factice imite l'objet qu'il remplace :</li>
+        <ul>
+          <li>il présente la même interface ;</li>
+          <li>il a le même comportement apparent.</li>
+          <li>Mais en fait, son comportement est "bidonné" (avec la complicité du scénario de test) </li>
+        </ul>
+        <li>Un objet factice ne doit contenir aucune logique applicative :</li>
+        <ul>
+          <li>le comportement n'est bon que dans les circonstances du test ;</li>
+          <li>il est piloté par le scénario de test via des méthodes supplémentaires ;</li>
+          <li>les méthodes de pilotage sont invisibles à l'objet testé.</li>
+        </ul>
+      </ul>
+      <p>Dans le scénario de test, l'objet réalisant l'interface sera un objet mock (e.g. <code>TimeBaseMock</code>) :
+      </p>
+      <ul>
+        <li>fournissant un instant présent simulé ;</li>
+        <li>piloté par le test grâce à une méthode réservée au test <code>setNow(long lt)</code> pour piloter le
+          déroulement du temps.</li>
+      </ul>
+      <p>Au début du test, pour partir d'un état connu, le test donne aux mocks et/ou aux stubs les consignes de
+        "bidonnage".</p>
+      <div><img src="data:image/png;base64,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f0qvX7/+9ddfmzVrBgBmZmZz5859+PChdLQaNejMmTOZ339FSBj05s2brVq1Yup7fX192e2mGRkZw4YNU1ZWphFMTEwuXLhApAxaVFTk5uZmbm5+8+ZNdloSBk1PTx8wYACtXubxeE5OTvSLQggRiUQBAQH0LQwAlJWVvb29CSFLly6lL0q6urr0Bert27dV/JQqBw0qBxwxaKtWrUxNTSuPwzaou7u7lpYW++f96NEjAKC/2MDAQADIzs6WeR2hUOjh4dGsWTMbG5uUlJRquoPqBA0qB9IGLS8vj46O9vDw0NDQoFUUBw4cKCgokD63sLDw999/79+/v7KysqampoeHx5kzZ8rKyiSiSRu0devWjImfPn0KADt27KC70rW4sbGxEk0Vb968UVZW3rhxI901MDDQ09OTqDRu1arVsGHDKrprkUj0008/TZ06le5u2bIFAA4dOiQd888//wQAdk+a5ORkgUCwdetWiZjJyclLly61trYGgMaNGwcHBz9//lxm6omJibNmzTI1NQWAtm3brl279v3798zRGjVoy5YtjYyMKo/DNmhqaqqOjs5PP/0UFxf34sWLJUuW8Pn8yZMn06MFBQU2Nja6urrbtm17+fJlUlLSxo0bz58/T/5p0E+fPnXt2tXMzCwpKUkiLbZB8/LyrKysGjdufPz48ZSUlJiYmMaNG7ds2ZJ+w3bu3CkQCCIjI9++fZuamnru3LkNGzYQQtLT02fNmgUAFy9evH379u3btyU6RlU7aFA54IhBe/furaqqWvk3hG3QXr16NWnShH00NzcXAObNm0cIGTt2rJaWVkXXEQqFtJaMqXPjGmhQOZAwaFlZmbGxMQB07tx506ZNHz9+rOjE58+f6+joCASCfv36/fbbb5U0LkobdO7cucxRkUikrKwcHBxMd6UNGhgYyOfzr1y5cptFw4YNvby8aAQDA4MhQ4ZIJCpt0MLCwv379wcHB3t5eU2dOrVhw4Y9e/akh4YOHaqrqyuz4Ojn56ekpHTt2jV26qamptOnT6/ofu/cuePv729kZAQAs2fPriiaSCSKj4+fOHGitra2QCBg3iFq1KB16tTp2LFj5XHYBp09ezafz2eXnSdOnCgQCGg5b9OmTQBw/Phx6YswBn316lXTpk1btmwps2jINmhYWBiPx2OndfXqVQCIiYkhhPj5+TVo0EBmhrEW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6NGjy8rKavsm5AENiiAIgvxA3N3dd+zYUdu5+CGgQREEQZAfCBqU66BBEQRBuAkalOugQREEQbgJGpTroEERBEG4CRqU66BBEQRBuAkalOugQREEQbgJGpTroEERBEG4CRqU66BBEQRBuAkalOugQREEQbgJGpTroEERBEG4CRqU66BBEQRBuAkalOugQREEQbgJGpTroEERBEG4CRqU66BBEQRBuAkalOugQREEQbgJGpTroEERBEG4CRqU66BBEQRBuAkalOugQREEQbgJGpTroEERBEG4CRqU66BBEQRBuAkalOugQREEQbgJBLzG/gAAIABJREFUGpTroEERBEG4CRqU66BBEQRBuAkalOugQREEQbgJGpTroEERBEG4CRqU66BBEQRBuAkalOugQREEQbgJGpTroEERBEG4CRqU66BBEQRBuAkalOugQREEQbgJGpTroEERBEG4CRqU66BBEQRBuAkalOugQREEQbgJGpTroEERBPmXkZKS8uBfQd++fX/55ZfazkX1kJWVxf4foUERBEG4iIuLi7GxsaXiU79+/YYNG9Z2LqoBHR2dNWvWsP9HaFAEQRAu4uLicuTIkdrOBfI/vL290aAIgiAKABqUa6BBEQRBFAM0KNdAgyIIgigGaFCugQZFEARRDNCgXAMNiiAIohigQbkGGhRBEEQxQINyDTQogiCIYoAG5RpoUARBEMUADco10KAIgiCKARqUa6BBEQRBFAM0KNdAgyIIgigGaFCugQZFEARRDNCgXAMNiiAIohigQbkGGhRBEEQxQINyDTQogiCIYoAG5RpoUARBEMVA2qC5ubkhlVJSUqKlpTV37twfkZ/i4mJ2WuHh4X/88UdxcfGPSEuCyMjIkJCQP/74QyI8KSmJZubTp09VTGLWrFna2tqVx0GDIgiCKAbSBk1LS2vEQllZWSgUskPy8/NbtGixatWqH5GfnJwcANDR0aFpGRkZAYCJicm1a9d+RHJsLC0tAaBevXqlpaXs8NGjRwMAADx9+rSKSaBB0aAIgvx7+GotrqWlZadOnWosP9SgM2bMYEKuXbumqanZtWvXH520paVly5YtlZSUTpw4wQTm5uaqqam1adMGDVpV0KAIgvzLkM+ga9euvXjxIt2+fft2SEhIYWHhnj17PDw8JkyYcOnSJUJIUVFReHj4qFGj/P39pd0TGxvr7e09fPjw6dOn37lzhwmXNighpE+fPnp6esxuSkrKhg0bpk6d6u7uPnfu3CtXrrAjFxYWbt68ecKECcOHD/fx8dm7d295eTlz9MGDB7Nnzx4+fPikSZNOnz4tcae9e/fu16+fq6srExgZGamlpbVs2TIJg6anpy9evHjEiBFjxozZvXt3WVkZ+1LFxcU7d+4cN26cm5tbYGBgfHw8DZcwaHl5eURERHh4OLuaGg2KIAiiGMhnUHY76Lp16wDAzc3NysrKw8PD0tJSSUkpNjbW3t7ezs5u9OjRRkZGOjo6aWlpzOm+vr4A0K1bt8mTJ7dt21YgEPz222/0kLRBi4qKLCws2rVrx4T07dvX2tp61KhRkyZNatGiBY/H27ZtGz1UVlbWtWtXbW1tDw+P6dOnu7q6amtrZ2dn06Pbt28XCATNmzefOHGis7MzAMyaNYt9p717946KilJRUcnMzKSBnTp1mjhxYlhYGNugiYmJderUMTAwGD16dJ8+fXg8nqOjI1P3m5WVRcuyvXv3njJliqOjo4mJCT3ENmh+fv6AAQP09fUl3gDQoAiCIIpBdRl04MCBVCH5+fnGxsbq6uqBgYE0QkpKirKy8sKFC+nu4cOHAYBxnkgkGjt2rLa29ufPn8nfBrWzswsKCgoKCvLz87OysrKwsLh+/TqT+ps3b5htkUg0atQofX19WtC8e/cuAMTExDARCgsL6aFnz54pKyt7e3uLRCJ6KDw8HABu3LjB3Gnv3r2Li4vr1KkTHh5OCHn69CkAXLp0ScKgbdu2NTIySk1Npbvbt28HgLVr19LdkSNHKisr04I4hfExY9APHz60b9/ewsJCunSOBkUQBFEMqsugjIcIIe7u7jwejxqR0rp16yFDhtDtPn36NG3alH21pKQkAIiLiyN/G7RevXq2tra2trbW1tYqKirOzs5JSUkSeSgpKXnz5k1ycvKOHTsA4PXr14SQO3fuAMDKlStLSkok4i9cuFAgEOTm5jIh5eXlGhoaK1asYO60d+/ehJBp06a1adOGEDJ37tzGjRuLxWK2Qd++fQsAS5YsYa4jFoubNGnSvn17QsiXL1+UlJQmTZok88OkBn327Fnjxo3t7Ozev38vHQcNiiAIohhUl0GzsrKYo97e3nXr1mXH79Gjh4ODA902MzMzMDBw+htbW9vWrVsDwJYtW4isWtysrKwuXbro6+szlbGXL1/u2rUr/JPLly8TQsRi8ZAhQwCgTp06Hh4ev/32W1FRET1r8ODBqqqqTLodOnSwtbVVVVWdPHkyc6fUoLdu3QKAO3fumJqaUlOyDXrp0iUAYPc2IoQMGzaMttQmJiYCQEREhMwPc9asWSoqKnXr1u3YsWNeXp7MOGhQBEEQxaC6DJqTk8Mc9fHxMTIyYsfv2bMnY1BjY+M2bdpESvHgwQNSQU8iWvG7Z88eQkhmZqaGhkavXr1u3LhBnRobGwsAFy5coJHFYvHFixdnzZpla2vL4/GaNGlC7T5w4EA9PT3pdJluPoxBCSHNmzdv3bo1n89PSUkh/zRofHw8AJw6dYqdwxEjRujq6pK/C8Fbt26V+WHOmjVLU1NzxIgRQqHwzz//lBkHDYogCKIY1LxB7e3tLS0txWKxzORkGvTIkSMAEBYWRgg5ffo0ANy/f585un79erZB2Zw/fx4AQkNDCSEBAQF8Pr+SWRHYBl29ejUAODo60l22Qd+8eQMAEsNhmzdvTit+c3JyBALBtGnTZCZBa3HLy8vHjh2roqJy9OhR6ThoUARBEMWg5g1K+92sX7+eHeH9+/d0RIe0QT99+mRvbw8AN2/eJITExMQAAFOAy87ObtSoEWPQzMzMwsJC5twPHz7weDxq0Lt37/L5/AkTJrAHt+Tl5X38+JG5U8agubm5sbGxycnJdJdtULFYbGNjY2FhwdQqnzhxAgCWLVtGdwcNGqSmpsZuuGVqkpmeRCKRyNPTU0lJiemEzIAGRRAEUQxq3qBisdjDw4OW8ObNm+fv79+3b19lZeWMjAwi1ZOoefPmampqfD5/0aJF9PSCgoLGjRvr6+vPmjUrMDCwQYMGvXr1Ygx64MABXV3dUaNGBQcHz5s3r0mTJkZGRsxAmjVr1vB4vJYtWwYEBMydO3f48OFaWlpMfSzboBJI9MVNSEhQV1dv1KhRYGDguHHjVFRU7OzsGHOnpaVZWFioq6uPGzdu0aJFdIQPPcQezSIWi2fOnCkQCHbs2MFOCw2KIAiiGHzVoKtWrdq0aZNE4M8//xwdHU23r169GhQUxC75HT9+nCmQUbZu3RoZGcnsisXiEydOjB492t7evl+/ftOnT4+JiaFFw8LCwiAWixYt2rp165MnT9hXS09P9/Pz69Gjh6ur64EDB16/fh0UFETLi+/fvw8PD3d3d+/WrVv//v0XLVr07t079rk3btzw8vLq3r27s7PzxIkTDx48mJ+fz9yphMwYEhISgoKCmEEphJAnT574+PjY29v36dNn9erVBQUF7Pg5OTnLly/v06ePvb39mDFjmE/4zz///Pnnn9kxN2/ePHfuXHanXDQogiCIYoBrs3ANNCiCIIhigAblGmhQBEEQxQANyjXQoAiCIIoBGpRroEERBEEUAzQo10CDIgiCKAZoUK6BBkUQBFEM0KBcAw2KIAiiGKBBuQYaFEEQRDFAg3INNCiCIIhigAblGmhQBEEQxQANyjXQoAiCIIoBGpRroEERBEEUAzQo10CDIgiCKAZoUK6BBkUUG5FIFBYWJrGg0lfJz89PTk7+8uWLRPi+ffsuXrxYfblDkOoEDco10KCI/Pzxxx9LliyRCNTT09PT05NYpDAsLExPTy89Pb3a87Br16569erl5eXR3aSkpICAgG7duhkYGOjp6dF1gNmUlJR4e3urqqoCgLKy8vjx49mLBUZGRpqamjJrECIIp0CDcg00KCI/fn5+devWlQgEALpsPWM1Qsjy5csBgFl9vrooKSkxNTVdvnw5ExIREVGnTh1nZ2c7OzsAkFiwl+ZZIBCEh4c/ffo0MjJSVVV13LhxzNHS0lITExP2BRGEO6BBuQYaFPl/CgoKkpOTMzIyRCKRxCGxWJyamvr69WuJQxUZtHv37nw+n108lWnQkpKS5ORkacl9O4cOHeLz+ampqUxIUVER3Vi4cKG0Qd+/f6+kpDRhwgQmJCAggM/nv3jxggkJDAw0MzMrLy+XO1cI8oNAg3INNChCMjIyXFxceDweLT7q6+sfPnyYObp9+3YTExN6yNDQcM+ePTR80qRJqqqqPB6PVtsaGhrScADw9fUdM2aMtrb2x48faaCEQcvLy+fOnauhoUEv26JFi6tXr9JDhw4d0tPTY6QYGRmpp6cXFBREd0tLS01NTVesWEF3+/Xr1759e5k3JdOg+/fvB4DTp08zIX/99RcArFu3jgm5cuUKAMTFxX3vx4ggPxo0KNdAgyJk+PDhZmZmsbGx6enpDx8+3LVr15kzZ+ihiIgIAJgxY0ZiYmJSUpKPjw+Pxzt16hQh5NWrVyNHjtTV1b19+/bt27fv3LlDT6EGffXqlYqKSmBgIA2UMOjs2bN5PN6cOXMePnwYFxdnY2OjoaFBC4JpaWkAsGvXLhpz8ODBqqqqLVq0oLsJCQkAcOHCBUJIWVmZtra2n5+fzJuSadAVK1YAwOvXr5mQL1++AICnpycTUlRUpKKismDBArk/TwT5QaBBuQYaFCGNGzf28fGRDi8qKqpTp87o0aPZgV27du3RowfdrqgW19fXlxAyffp0oVBIS5Nsg+bm5gqFwmHDhjGnvHz5UiAQeHl50V0rKyv6vysvL9fT0/Pz8+PxeLRP0OLFi9XV1YuLiwkhL168AICNGzfKvCmZBvXz8wOAz58/swNVVFSGDx/ODrG0tOzfv7/MyyJILYIG5RpoUIQMHz5cU1MzICDg+vXr7Pa/y5cvA8CKFStu374dHx8fGxsbGxs7cuRIAwMDGqFyg2ZkZGhqak6ePJn806A3btwAAHZFMSGkQ4cOzZo1o9ve3t7GxsZisfjmzZs8Hi8tLU1XV/fAgQOEEHt7+169etFo165dAwAaLo1Mg/r4+ACARFdbNTW1oUOHSmSmQ4cO3/DJIUiN0qxZMzMzMxuEM9SpU4d59aegQf9zZGVlTZgwQUtLizaCTp8+PTc3lxBy+PBhANDS0tKToqysjHzNoISQhQsXKikpPX36lG3QI0eOAMCVK1fYZw0ZMoRpSaURHj58GBISQrXq6uo6adKk/Px8FRWVkJAQGu3mzZsAsG/fPpk3JdOgS5cuBQB2z6P8/HwAmDRpEjuara1tly5dvuszRJAawNbWtl27doMQzmBhYeHv78/+H6FB/6OUlJRcuXIlMDBQWVl51KhRhJCzZ88CwNGjRys65asGzc3N1dfXHzZsGNugtKvOiRMn2GfZ29v/9NNPdPvTp098Pn/dunXOzs60mXPDhg3m5ubR0dEAcOvWLRrtzZs3ABAeHi4zbzINunPnTgCIj49nQu7duwcAK1euZEdr2LDhkCFDKrprBKktsBaXa2AtLiLJiBEjGjRoQAjJzs4WCoUS7aBs5s2bp6mp+X/t3WlQFEcbB/BnlgVxg8iqQOTGC0ExsTCeYKJBjUSBeAcRj1LiUQJqRQXvMwQsjFEkogLeGqsSNaAoEkTEO6IgumpQIGgJ6AKCBJDdfj902W87C8R4JDvx+X2wmO6Z2XEt+dfMdD8tauQTlBASGRkpCMLIkSNZgpaWlvJvPQkhxcXFzZs35/+93NzchgwZolAoDh8+TAi5ceMGAPj6+iqVSvacWavVWlpaim4fmQYTNC8vTxCEkJAQ1rJy5UoAyMrKYi3l5eUymYwN90VIf2CC6htMUESCg4MvXLhAh+fcvHnTzs5u+PDhtGvRokUAsGjRopKSEkJIaWnpzz//zG77duzYAQDbtm27cePG3bt3aaMoQaurq21sbOhUGTYWd8KECUZGRvHx8TU1NX/88cegQYPkcjm7uSSEzJ8/XxAEuVxOnycTQqysrARBEN0a+vn5ubi48C2VlZX0fe348eMB4MCBAykpKZcvX2Y7jB49WqFQJCYmajSa1NRUMzMz9mKVSk5OBoCLFy++8veJ0FsioQR99uyZWq3WarWin1+ZWq3Oy8t7Q1f3xmCCItKpUycAEASBTtDs3bt3UVER7aqvr1+6dKlCoQAAIyMjAFAoFCtWrKC9tbW1Y8eOpRXyjIyMaKMoQQkhsbGxdN4nS9DKykp6VyqXywFAqVTu27ePP4TGWJ8+fVjLhAkTdEfenjx5EgCys7NZS3Z2Nuj4+OOP2Q5lZWWenp6sq1+/fsXFxfw5p0yZwibPIKRXJJSg8+fP79GjB03NqqoqS0vLnTt3vs4JV65cKQjCG7q6NwYTFBFCSH5+fnp6enJy8u3bt3V7Kysr09PTk5KSfvvtt+rqat0d1Gq1Wq1mP/OVZgkhGo2G7iAqaXT37t2kpKT09HTdc9JD+EGzf/75p1qtrqur43fTarWurq7BwcGspb6+Xq1Dt4J8bm7u0aNHr127JmovLy83NTXdvn277t8RoX+dVBL03r17xsbGx48fZy2RkZE2NjYN/vZ4SZig/yhM0HdEamqqsbExu2l+TcuXL3dxcaEjjRHSNw0mqI2NTUJCwr9yPY2ZO3euo6Mj/9j20aNHRkZGcXFxr3xOTNB/FCbouyM9Pf1Nrfpy7tw59kIXIX3TYIKamJhs2bLlZQ7fuXPnwoULy8rK5s6d27dvXx8fH9GTVY1Gs23bNi8vLzc3t5EjR9JxfFRERARf/DIqKiowMJD9v8vJyQkMDCwoKCCE1NbWtm7deuHChaJPHzZsGP9eRte9e/ea+I+sm6BHjhwZNWqUm5ubl5fXtm3b+EdcoaGhO3bsyMnJ8ff379279/jx4y9cuMAfW1RUNH369F69etGv9PTp04GBgboPq/4SJihCCEnDaybotGnTLCwsunXr5uPjs2jRoj59+gAAf8JJkybRQe/Lli3z8PAAADb9es6cOW3atKEpVV9fb2Zmxlff5IuF0elqSUlJok+PiIiQyWTsdY+uli1b9u/fv7FeUYJGREQAgIeHx7Jly3x9fQEgICCA9To4OPTu3dvS0nLatGkLFiyws7NTKBRsZH5JSYmtrW2rVq3mzZsXFhZmb2/ft29fABANiXgZmKAIISQNr5+gALBu3Tq6WV9f37lzZzbOLjU1FQDYvaNGo/H19ZXL5fTOMjExEQCuXLlCCKHFwvr3789+x/LFwtatW9fgwoInTpwAgOTk5MYuz97e/vPPP2+sl0/QwsJCuVzu6+vL7jsXLlzILwjh4OAgl8vZIHxaN3TVqlV0MyQkxMDA4Pr163SzuLi4VatWmKAvwARFCP3H0ATNzs7ewmnWrJm/vz/b3L17d2OHT5s2TS6X19bWspbp06dbW1vTn2fPni2TycrKylgvLZwZHR1NCHny5ImhoWFkZCQh5JtvvunSpUtsbCytvkmLhbGyJPPmzRMEQTTojzyvXsJuW/8uPkFjYmIA4Pz586xXrVbLZDI2C8DBwWHgwIH84R06dGArAX/44YdDhgzhe2fNmoUJ+gJMUITQfwxN0OjoaL7EpiAICoWCbbL60rqmTZtmY2PDtyxcuJAVRfH29raysuJ7KyoqAODrr7+mm3379v3ss88IIZ6enkFBQXl5eQBAh7UDALvhmzlzplwu1539qVKpWB6/Aj5B6R0nH/aEEGtra7YghIODw6RJk/jeHj16+Pr60p/NzMxmzJjB965fvx4T9AWYoAghqcvNzeUHyLz+U1xabozhE9TX19fCwoLvffToEQCEhobSzcWLFysUioqKiubNmx85coQQ4ujo+P3338+bN8/MzIwVC1uyZAkA6I7KoWvx/vjjjy9zqbr4BA0LCwOA0tJSfgcLCwuWkQ4ODlOmTOF7+QS1trZm96PU6tWrMUFfgAmKEJK6yZMnOzk5TZo0ia6/+1YTlBYC40fDpqSkAACbgnLq1CkAWLZsGSsWNnXqVG9v7+7du/PFwvbs2QMAupOtG2t/SXyCJiQk8G89CSFFRUWCILDb5aYT9JNPPnF2dubvkocNG4YJ+oLY2NgRI0YUIISQZGVmZpqYmADAe++917NnT0dHR90plW8qQbOysmQy2cSJE+ldb1VVlbu7u4mJyePHj+kONTU1CoXC1NSUTUrZt2+fiYmJTCbjn80WFRUBwNatW0WfHhwc3Lp1a1FZFdEO9D1rg/gEffz4cYsWLTw8PGjxFo1GExAQIAgCHehE/ipB4+PjAWDt2rV0c//+/bQ4Gibo/+3atcscIYQkzsDAgBWhFATBxsbmzp07/O+6N5Wg5Pnyf926dfPz83N0dJTL5aJym4MHDwaAxYsX082HDx/SktcqlYrfzcPDw8fHh2/RarUdOnQQvX0U+VuzWWjsOTo6+vn5devWDQBWrlzJeptOUK1WO3XqVLqYo5WVlbW1dXBwMABUVFQ0cXkN+s8mKEIISd2VK1eaN28uk8mcnZ0nTpzYu3dv3ae4UVFRV69efZmzHTt2bPPmzXzLqVOnoqKi+JbMzMw5c+b4+fmFhobm5uaKznDq1Knw8PBbt26xlujoaFGEEEL27t1rZGTEv6c8c+aMIAh8CWtd69ev37NnT2O9mZmZbHIqlZubGxYW5ufnN2fOHNF6wzExMUePHuVbEhISRAs1Xrx4MTY29uDBg0+ePAkNDVUqlU1cW2MwQRFCSE+NGTPG29t7+/btdAqKVOri1tfXf/DBB2FhYaxl+PDhX3755b94SSL8S9Cqqip7e/tPP/30Fc6DCYoQQnpKVKJZKglKCDl79uzcuXPpW8+ysrKvvvoqPz//376o/+vTp8/8+fO3bNmyevXqDh06NGvWLCMj4xXOgwmKEELSIKEE1XORkZGenp5dunRxdXX19/enQ51fASYoQghJAyaovsEERQghacAE1TeYoAghJA2YoPoGExQhhKQBE1TfYIIihJA0vMsJ+uDBg/Dw8KqqKrq5cePGlJSUf+Bzs7KyNm3a1FgvJihCCEnDv5WgGzZs2LVrF9+Snp5OayRdunSJbx86dGi7du3exjVMnDjRy8uLbVpaWs6ePfttfJBIaWlpixYtDh061GAvJihCCElDgwn666+/FhUVvdXPFdWOJ88TFAAGDRrEt7+lBM3JyZHJZJmZmazlH0tQQsi8efM6d+6su14bwQRFCCGpeM21WaiHDx+qVKoGq6hXV1erVKrCwkJRe2MJ6unpKVojpcEEffz4sUqlEi1G9rfMmDGjY8eOfEuDCVpQUKBSqWpqaho7z/3793X/dlRJSYlKpeKXH2eys7MBoMGHxpigCCEkDa+ZoJmZmS4uLqxOva2tLatwW1NTExQUpFAoaJezszO74XN2djYwMDA0NKQreNP67DRBd+/e7eTk1LNnT3Z/JkrQkpKS4cOHy2Qy+sjX09OTBdicOXO6du3K9gwICFAqlexh6YULF5RK5enTpwkh9fX1ZmZmbOUySpSgycnJ7dq1oxdvYmKydOlStghMcnKyUqlMTEx0d3enO9jZ2V24cIEdW1lZOWLECFoiv2XLltu3b3d3d588eTL/ce3btw8ICND9SjFBEUJIGl4nQTUajaWlpaen55UrV0pKSrKzs6Oion7//XfaO3r06BYtWmzevDkvL+/SpUuffvqpqalpQUEBIeTatWtOTk4DBgy4fPny5cuXb9++TZ4n6P79+w8cOAAArGg7n6AajaZnz54mJiYJCQl5eXn79+9XKpUuLi70HnHfvn0AQNeZ0Wg0bdq0adasGVu8Zc2aNcbGxtXV1YSQS5cu8R9B8QmalZVlZGTUq1evs2fP3rx5ky60smLFCtr7yy+/AICVlVV4ePj169ePHz9uZ2fn6urKInbcuHHGxsY//PBDQUHByZMnO3bs2KJFizFjxvAf5+/vb2trq/utYoIihJA0vE6C3r9/HwD27t2r23Xx4kUAiI2NZS1lZWVmZmZLliyhm409xd2/f79Wq3Vzc3N2dq6vrycvJujx48cBYOPGjeyo3bt30ztXQkhxcbEgCPTKr1y5AgAhISGdOnWiew4cOHDgwIH057i4OADIycnhL4BP0HHjxikUCv659ODBg01NTWkA0wSdP38+692yZQsA3L17lxBSWFgoCEJoaCjrPXPmDACIEnTlypUAoFarRV8dJihCCEkDTdDdu3e7cWQymb29PdscOnRog8fW19fb2tra2tquWrXq+vXrfNeaNWtoHKZwunbtylKziQQlz5OSLv3NJ2hERIRo2eqamhqZTDZ9+nS66erqOnr0aELIunXrnJycsrKyAKCwsLC6utrY2Hj16tX8eUSjpfgEtba2Fv2tt27dCgBnz54lzxOUf1lLLz49PZ0QcuzYMQAQlZVXKpWiBI2OjgYAflk3ChMUIYSkgSZoSkpKIMfQ0NDDw4NtLliwoLHDr1+/7uXlZWRkBAD29vYRERH0SWZQUBAAKHUMHjyYHth0ghJCBgwYYGdnV1NTwydoUFCQgYGBaAirubk5TU1CSEhISJs2bTQazdChQ2fOnKnVas3NzePj41NSUgDg3LlzdLeoqCgAEC3twieoQqEQvbZMTEwEgMTERPI8Qfna8efOnWMjgxISEnRXCO/UqZMoQTds2AAAeXl5oq8UExQhhKThjYzFraysPHbs2NixYwGALri9ePFiACgpKWnskL9M0PPnzwuCsH79ej5B165dCwCPHz9mRz179kwul0+dOpVu0mw7f/68iYkJfc05duzY8ePHh4aGtmzZkq3sRp/9ipZP4RP0/fffHz58ON8bHx/P7iybTlCa1mlpaaxXq9XqvgddsmSJIAisngODCYoQQtLwRhKU0mq1VlZW/v7+hJATJ04AQExMTGM7e3h4iB6TihKUEPLFF1+Ym5u7u7uzBD18+DAA8KUYaJht3bqVblZUVMjlcm9vbwMDAxq0sbGxbdu2/eijj7y9vdlRt27dAoCEhAT+AvgE9fHxMTMze/LkCesdNWqUsbExbWk6QR8+fCiXy2fOnMl6jx49qvsWlEp6AAADsElEQVQe1MfHp0uXLrrfDCYoQghJw+sk6I0bNxYvXnzjxo26ujqtVnvo0CG5XL5u3TpCiFarHTBggKmpaVxcXFlZ2bNnz+7du7dhwwY2tyQwMFCpVCYlJemOxWXnz83NNTAwEASBJWhtba2Tk1Pbtm3T0tLq6urOnTtnb29vY2NTWVnJjurTpw8A9OjRg27m5eXRCSffffcdf/F2dnaBgYF8C5+g6enpMpnM19e3qKioqqpq/fr1MpksODiY9jadoISQWbNmyWSysLCwjIyMuLg4Gxub1q1b8wlKhzGzE/IwQRFCSBpeM0EtLCwAwMDAQC6Xy+XyyZMn19XV0d7y8nJ/f386cZP+aW1tnZSURHvz8/Pd3d0NDQ1pFQXSUIISQiZNmgQA/HzQO3fudO/enU4GpdNMs7Oz+UPoA2T+3a2jo6PuyNvly5ebm5uzqyU680Hj4+NbtmxJP0gQhMmTJ7O6Cn+ZoHV1dSEhISYmJgDQsWPHo0ePtm/fng13IoSkpqYCwLVr13S/VUxQhBCShgYTtKysrIkqPDytVnvr1q20tLSMjIwGaxKVlpampaWlpaXdunVLt4idRqNRq9X0DvLZs2dqtVpUwae2tlatVpeXl4sOzMnJSUlJuXr1KpuCKTqEv/7Kykq1Wi369Pv37ysUioMHD7KW8vLyp0+f8vs8ffo0IyPj5MmTDx484Nvr6urUajWdbEPRi+fzmH459ITl5eWGhobffvst6xo/fjybWiOCCYoQQtLwLq/NsmzZMr4MwhtUWFh4//59+nN1dXVAQIBMJmP3yiqVytDQUDSOicEERQghaXiXE/Tp06cpKSmi+8434qeffpLL5V27du3Xr59SqTQwMIiMjGS9+fn5dF5pgzBBEUJIGt7lBH176urqTp8+vWnTpvDw8JiYGN1Jn03ABEUIIWnABNU3mKAIISQNmKD6BhMUIYSkARNU32CCIoSQNGCC6htMUIQQkgZMUH2DCYoQQtKACapvMEERQkgaMEH1DSYoQghJAyaovsEERQghacAE1TeYoAghJA2YoPoGExQhhKQBE1TfYIIihJA0YILqG0xQhBCSBkxQfYMJihBC0oAJqm8wQRFCSBowQfUNJihCCEkDJqi+wQRFCCFpwATVN5igCCEkDZig+gYTFCGEpAETVN9ggiKEkDRgguobTFCEEJIGLy+vnj17+iC94ejoiAmKEEISkJ6evg/pGZVKxf8bYYIihBBCrwITFCGEEHoVmKAIIYTQq/gfN+Ip32mX8gkAAAAASUVORK5CYII=" alt=""></div>
+      <ul>
+        <li>Dans l'application, l'objet réalisant l'interface sera un
+          objet applicatif (e.g. <code>TimeBase</code>) :</li>
+        <ul>
+          <li>déléguant à <code>System.currentTimeMillis()</code> ;</li>
+          <li>sans valeur ajoutée (inutile de tester).</li>
+        </ul>
+      </ul>
+      <div><img src="data:image/png;base64,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" alt=""></div>
+      <p><b>Stubs vs. Mocks</b></p>
+      <p>Un <em>stub <u>ne peut pas</u> faire échouer un test</em> qui ne vérifie rien grâce à lui.</p>
+      <p>Un <em>mock <u>peut</u> faire échouer un test</em>. Ce dernier vérifie que l'objet testé interagit avec le
+        mock de la bonne façon :</p>
+      <ul>
+        <li>que les bonnes méthodes sont appelées :</li>
+        <li>le bon nombre de fois ;</li>
+        <li>dans les bonnes circonstances ;</li>
+        <li>avec les bons arguments.</li>
+      </ul>
+      <p>Les assertions peuvent se trouver directement dans le mock. Celui-ci peut aussi historiser l'appel de ses
+        méthodes et être interrogé a posteriori par la méthode de test.</p>
+    </div>
+  </div>
+
+
+  <div class="w3-card w3-margin tut-slide">
+    <header class="w3-padding w3-blue">Concevoir (ou rendre) des classes testables en isolation</header>
+    <div class="w3-padding">
+      <p>Une classe n'est pas testable en isolation si le test ne sait pas remplacer les objets partenaires par des
+        objets factices. Par exemple, si elle les instancie directement avec un new dans son code.</p>
+      <p>Si une classe a une dépendance externe directe, elle n'est pas testable non plus.</p>
+      <p>On peut être amené à modifier la classe testée pour la rendre testable.</p>
+      <p>Il faut commencer par régler la question des dépendances externes.</p>
+    </div>
+  </div>
+
+
+
+  <div class="w3-card w3-margin tut-slide">
+    <header class="w3-padding w3-blue">Externaliser une dépendance externe</header>
+    <div class="w3-padding">
+      <p>Si une classe a une dépendance externe directe, elle n'est pas testable.</p>
+      <p>Une solution consiste, dans un premier temps, à externaliser la dépendance, c'est-à-dire déplacer le code qui
+        pose problème dans un autre objet.</p>
+      <ul>
+        <li>Dans la classe <code>Clock</code>, au lieu d'implémenter <code>now</code> par
+          <code>return System.currentTimeMillis()</code>, on délègue à un objet <code>_tb</code> (comme
+          <code>TimeBase</code>) : <code>return _tb.now()</code>.
+        </li>
+      </ul>
+      <div class="w3-card w3-margin tut-slide">
+        <header class="w3-padding w3-light-grey">Clock.java</header>
+        <div class="w3-padding w3-leftbar w3-border-green">
+          <pre><code class="java hljs language-typescript">package fr.<span class="hljs-property">imtne</span>.<span class="hljs-property">ilog</span>;
+    
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Clock</span> {
+  <span class="hljs-keyword">protected</span> ITimeBase _tb;
+...
+  <span class="hljs-keyword">protected</span> long <span class="hljs-title function_">now</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> _tb.<span class="hljs-title function_">now</span>();
+  }
+...
+}
+</code></pre>
+        </div>
+      </div>
+      <p>On a remplacé :</p>
+      <ul>
+        <li>la dépendance envers l'OS ;</li>
+        <li>par une dépendance envers une interface (e.g. <code>ITimeBase</code>).</li>
+      </ul>
+      <p>L'objet <code>_tb</code> est un objet partenaire ;</p>
+      <ul>
+        <li>il peut être factice ou réel ;</li>
+        <li>il n'y a plus de dépendances externes.</li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  <div class="w3-card w3-margin tut-slide">
+    <header class="w3-padding w3-blue">Injection de dépendances</header>
+    <div class="w3-padding">
+      <p>Il est important que l'instantiation n'ait pas lieu dans la classe testée. Une <code>ITimeBase</code>
+        (type déclaratif) désigne une <code>TimeBaseMock</code> ou une <code>TimeBase</code> (types dynamiques) en
+        fonction de l'instantiation qui a eu lieu :</p>
+      <ul>
+        <li><code>ITimeBase mock = new TimeBaseMock();</code></li>
+        <li><code>ITimeBase time = new TimeBase();</code></li>
+      </ul>
+      <p>On peut utiliser l'<span class="w3-text-blue">injection de dépendances</span>. On peut par exemple injecter
+        la dépendance par le constructeur :</p>
+      <div class="w3-card w3-margin tut-slide">
+        <header class="w3-padding w3-light-grey">Clock.java</header>
+        <div class="w3-padding w3-leftbar w3-border-green">
+          <pre><code class="java hljs language-typescript"><span class="hljs-keyword">import</span> fr.<span class="hljs-property">imtne</span>.<span class="hljs-property">ilog</span>.<span class="hljs-property">ITimeBase</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Clock</span> {
+  <span class="hljs-keyword">protected</span> ITimeBase _tb;
+  ...
+  <span class="hljs-keyword">public</span> <span class="hljs-title class_">Clock</span>(ITimeBase timeBase) {
+    _tb = timeBase;
+  }
+  ...
+}</code></pre>
+        </div>
+      </div>
+      <p>Dans la classe de test, on écrira :</p>
+      <ul>
+        <li><code>Clock tested = new Clock(mock);</code></li>
+      </ul>
+      <p>L'injection peut aussi s'opérer via un mutateur (e.g. <code>setTimeBase</code>).</p>
+    </div>
+  </div>
+
+
+
+  <div class="w3-card w3-margin tut-slide">
+    <header class="w3-padding w3-blue">Fabriques de test</header>
+    <div class="w3-padding">
+      <p>On peut aussi utiliser une <span class="w3-text-blue">fabrique</span> :
+        <code>ITimeBase time = factory.getTimeBase();</code> dans la classe testée.
+      </p>
+      <p><em>Factory</em></p>
+      <p>Une <a href="https://en.wikipedia.org/wiki/Factory_%28object-oriented_programming%29" title="Factory" target="_blank">fabrique</a> : </p>
+      <ul>
+        <li>est une classe qui centralise les instantiations d'une application ;</li>
+        <li>comporte des méthodes fournissant les objets de l'application ;</li>
+        <li>peut être rendue accessible partout dans l'application (<code>Factory fact = Factory.get()</code>).</li>
+      </ul>
+      <p>Lors d'un test, la fabrique accessible fournit :</p>
+      <ul>
+        <li>l'objet testé ;</li>
+        <li>les objets factices.</li>
+      </ul>
+      <p>Dans les circonstances normales, la fabrique accessible fournit :</p>
+      <ul>
+        <li>les objets réels.</li>
+      </ul>
+      <p>L'interface <code>IFactory</code> définit l'interface de la fabrique. Il aura une implémentation normale et
+        une
+        implémentation de test :</p>
+      <div class="w3-card w3-margin tut-slide">
+        <header class="w3-padding w3-light-grey">IFactory.java</header>
+        <div class="w3-padding w3-leftbar w3-border-green">
+          <pre><code class="java hljs language-typescript">package fr.<span class="hljs-property">imtne</span>.<span class="hljs-property">ilog</span>;
+    
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> IFactory {
+  IClock <span class="hljs-title function_">getClock</span>();
+  ITimeBase <span class="hljs-title function_">getTimeBase</span>();
+}
+</code></pre>
+        </div>
+      </div>
+      <p><b>Implémentation normale</b> :</p>
+      <div class="w3-card w3-margin tut-slide">
+        <header class="w3-padding w3-light-grey">Factory.java</header>
+        <div class="w3-padding w3-leftbar w3-border-green">
+          <pre><code class="java hljs language-typescript">package fr.<span class="hljs-property">imtne</span>.<span class="hljs-property">ilog</span>;
+    
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Factory</span> <span class="hljs-keyword">implements</span> IFactory {
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> IFactory <span class="hljs-variable constant_">INSTANCE</span>;
+  <span class="hljs-keyword">protected</span> <span class="hljs-title class_">TimeBase</span> tb = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TimeBase</span>();
+
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> IFactory <span class="hljs-title function_">get</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable constant_">INSTANCE</span> == <span class="hljs-literal">null</span>)
+      <span class="hljs-variable constant_">INSTANCE</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Factory</span>();
+    <span class="hljs-keyword">return</span> <span class="hljs-variable constant_">INSTANCE</span>;
+  }
+
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setFactory</span>(<span class="hljs-params">IFactory fact</span>) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable constant_">INSTANCE</span> == <span class="hljs-literal">null</span> &amp;&amp; fact != <span class="hljs-literal">null</span>)
+      <span class="hljs-variable constant_">INSTANCE</span> = fact;
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-keyword">public</span> IClock <span class="hljs-title function_">getClock</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Clock</span>();
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-keyword">public</span> ITimeBase <span class="hljs-title function_">getTimeBase</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> tb;
+  }
+}
+</code></pre>
+        </div>
+      </div>
+
+      <p>La méthode statique <code>IFactory Factory.get()</code> :</p>
+      <ul>
+        <li>utilise l'instantiation tardive (design pattern "Lazy
+          instantiation" ou "Lazy Initialization") ;</li>
+      </ul>
+      <pre><code class="java hljs language-typescript"><span class="hljs-keyword">if</span> (<span class="hljs-variable constant_">INSTANCE</span> == <span class="hljs-literal">null</span>)
+  <span class="hljs-variable constant_">INSTANCE</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Factory</span>();</code></pre>
+      <ul>
+        <li>instancie la fabrique normale au premier besoin ;</li>
+        <li>ouvre la possibilité de remplacer la fabrique normale par une
+          autre.</li>
+      </ul>
+      <p>La méthode statique <code>Factory.setFactory(IFactory fact)</code>
+        :</p>
+      <ul>
+        <li>configure la fabrique qui sera utilisée dans toute l'application
+          ;</li>
+      </ul>
+      <pre><code class="java hljs language-typescript"><span class="hljs-keyword">if</span> (<span class="hljs-variable constant_">INSTANCE</span> == <span class="hljs-literal">null</span> &amp;&amp; fact != <span class="hljs-literal">null</span>)
+  <span class="hljs-variable constant_">INSTANCE</span> = fact;</code></pre>
+      <ul>
+        <li>doit être appelée avant le premier appel à <code>Factory.get()</code>
+          sinon <code>INSTANCE</code> ne sera pas <code>null</code> ;</li>
+      </ul>
+
+
+
+
+
+
+
+
+
+
+
+      <p><b>Classe <code>Clock</code> modifiée pour utiliser la fabrique</b> :</p>
+      <div class="w3-card w3-margin tut-slide">
+        <header class="w3-padding w3-light-grey">Clock.java</header>
+        <div class="w3-padding">
+          <pre><code class="java hljs language-typescript">package fr.<span class="hljs-property">imtne</span>.<span class="hljs-property">ilog</span>;
+    
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Clock</span> <span class="hljs-keyword">implements</span> IClock {
+  <span class="hljs-keyword">protected</span> ITimeBase tb;
+  ...
+
+  <span class="hljs-keyword">protected</span> long <span class="hljs-title function_">now</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> tb.<span class="hljs-title function_">now</span>();
+  }
+
+  <span class="hljs-keyword">public</span> <span class="hljs-title class_">Clock</span>() {
+		<span class="hljs-variable language_">this</span>.<span class="hljs-property">tb</span> = <span class="hljs-title class_">Factory</span>.<span class="hljs-title function_">get</span>().<span class="hljs-title function_">getTimeBase</span>();
+		_lT0 = <span class="hljs-title function_">now</span>();
+  }
+  ...
+}
+    </code></pre>
+        </div>
+      </div>
+
+      <ul>
+        <li><code>Factory.get()</code> fournit la fabrique ;</li>
+        <li> <code>Clock</code> n'a plus besoin d'injection par le
+          constructeur ;</li>
+        <li>grâce à <code>getTimeBase()</code>, elle délègue la fourniture
+          de la base de temps à la fabrique&nbsp; ;</li>
+        <li>mais elle a l'initiative de la création.</li>
+      </ul>
+
+
+
+      <p>Pour les besoins du test, la fabrique de test <code>TimeBaseMockFactory</code> peut :</p>
+      <ul>
+        <li>être une <u>classe interne</u> de <code>ClockTest</code> =&gt;</li>
+        <ul>
+          <li>une classe interne a un accès direct à la classe englobante ;</li>
+          <li>la fabrique a accès à l'objet mock <code>tb</code> qu'elle
+            doit fournir à l'objet testé ;</li>
+        </ul>
+        <li>hériter de <code>Factory</code> =&gt; redéfinir la méthode <code>getTimeBase()</code>
+          qui fournit l'objet mock <code>tb</code> ;</li>
+        <li>remplacer la Factory par défaut :</li>
+        <ul>
+          <li>soit dans le constructeur ;</li>
+          <li>soit comme ici dans un initialiseur statique.</li>
+        </ul>
+      </ul>
+      <p><b>Classe de test configurant la fabrique de test</b></p>
+      <div class="w3-card w3-margin tut-slide">
+        <header class="w3-padding w3-light-grey">ClockTest.java</header>
+        <div class="w3-padding">
+          <pre><code class="java hljs language-typescript">package fr.<span class="hljs-property">imtne</span>.<span class="hljs-property">ilog</span>;
+    
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">Assert</span>.*;
+
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">Before</span>;
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">Test</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClockTest</span> {
+  <span class="hljs-keyword">static</span> {
+    <span class="hljs-title class_">Factory</span>.<span class="hljs-title function_">setFactory</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">TimeBaseMockFactory</span>());
+  }
+  <span class="hljs-keyword">protected</span> <span class="hljs-title class_">TimeBaseMock</span> tbMock;
+  <span class="hljs-keyword">protected</span> <span class="hljs-title class_">Clock</span> clock;
+
+  <span class="hljs-meta">@Before</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setUp</span>(<span class="hljs-params"></span>) {
+    tbMock = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TimeBaseMock</span>();
+    tb.<span class="hljs-title function_">setNow</span>(<span class="hljs-number">200000</span>);
+    clock = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Clock</span>();
+  }
+...
+  <span class="hljs-keyword">protected</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TimeBaseMockFactory</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Factory</span> {
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> ITimeBase <span class="hljs-title function_">getTimeBase</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">return</span> tbMock;
+    }
+  }
+}
+</code></pre>
+        </div>
+      </div>
+      <p>Le caractère définitif du choix de la fabrique est gênant :</p>
+      <ul>
+        <li>dans une suite de tests, si plus d'un test veut imposer sa
+          fabrique de test ;</li>
+        <li>la première classe de test à faire appel à <code>setFactory</code>
+          fonctionnera ;</li>
+        <li>pour les autres classes de test, <code>setFactory</code> sera
+          sans effet ;</li>
+      </ul>
+      <p><b>Fabrique <u>unique</u> qui délègue à une autre fabrique qui peut varier au cours du temps</b>
+        :</p>
+      <div class="w3-card w3-margin tut-slide">
+        <header class="w3-padding w3-light-grey">DelegatingFactory.java</header>
+        <div class="w3-padding w3-leftbar w3-border-green">
+          <pre><code class="java hljs language-typescript">package fr.<span class="hljs-property">imtne</span>.<span class="hljs-property">ilog</span>;
+    
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DelegatingFactory</span> <span class="hljs-keyword">implements</span> IFactory {
+  <span class="hljs-keyword">protected</span> <span class="hljs-keyword">static</span> <span class="hljs-title class_">DelegatingFactory</span> <span class="hljs-variable constant_">INSTANCE</span>;
+  <span class="hljs-keyword">protected</span> IFactory delegate;
+
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-title class_">DelegatingFactory</span> <span class="hljs-title function_">get</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable constant_">INSTANCE</span> == <span class="hljs-literal">null</span>) {
+      <span class="hljs-variable constant_">INSTANCE</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DelegatingFactory</span>();
+      <span class="hljs-title class_">Factory</span>.<span class="hljs-title function_">setFactory</span>(<span class="hljs-variable constant_">INSTANCE</span>);
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-variable constant_">INSTANCE</span>;
+  }
+
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setDelegate</span>(<span class="hljs-params">IFactory fact</span>) {
+    delegate = fact;
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-keyword">public</span> IClock <span class="hljs-title function_">createClock</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> delegate.<span class="hljs-title function_">createClock</span>();
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-keyword">public</span> ITimeBase <span class="hljs-title function_">getTimeBase</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> delegate.<span class="hljs-title function_">getTimeBase</span>();
+  }
+}
+</code></pre>
+        </div>
+      </div>
+      <ul>
+        <li>La <code>DelegatingFactory</code> est instanciée au premier besoin ;</li>
+        <li>elle s'enregistre elle-même comme la fabrique à utiliser ;</li>
+        <li>la méthode <code>setDelegate</code> re/définit la fabrique déléguée ;</li>
+        <li>au momet de s'exécuter chaque test définit sa fabrique de test comme déléguée.</li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  <div class="w3-card w3-margin tut-slide">
+    <header class="w3-padding w3-blue">Limites des objets factices</header>
+    <div class="w3-padding">
+      <p>On peut parfois renoncer aux objets factices :</p>
+      <ul>
+        <li>si la logique applicative est très simple à rédiger ;</li>
+        <li>si leur emploi complexifierait le test.</li>
+      </ul>
+      <p>On teste alors :</p>
+      <ol>
+        <li>la dépendance pour l'implémenter ;</li>
+        <li>la classe qui en dépend.</li>
+      </ol>
+      <p>Par exemple, on implémente <code>Counter</code> :</p>
+      <ul>
+        <li>à la manière d'un cadenas à 10000 combinaisons ;</li>
+        <li>par agrégation de 4 roues codeuses (<code>ThumbWheel</code>) : unités, dizaines, centaines et milliers.
+        </li>
+      </ul>
+
+      <img src="data:image/jpeg;base64,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" alt="data:image/jpeg;base64,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">
+      <div class="w3-card w3-margin tut-slide">
+        <header class="w3-padding w3-light-grey">Counter.java</header>
+        <div class="w3-padding w3-leftbar w3-border-green">
+          <pre><code class="java hljs language-typescript">package fr.<span class="hljs-property">imtne</span>.<span class="hljs-property">ilog</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Counter</span> <span class="hljs-keyword">implements</span> ICounter {
+	<span class="hljs-keyword">protected</span> IThumbWheel[] wheels;
+
+	<span class="hljs-keyword">public</span> <span class="hljs-title class_">Counter</span>() {
+		IFactory fact = <span class="hljs-title class_">Factory</span>.<span class="hljs-title function_">get</span>();
+		wheels = fact.<span class="hljs-title function_">createThumbWheels</span>(<span class="hljs-number">4</span>);
+		<span class="hljs-keyword">for</span> (int i = <span class="hljs-number">0</span>; i &lt; wheels.<span class="hljs-property">length</span>; i++)
+			wheels[i] = fact.<span class="hljs-title function_">createThumbWheel</span>();
+	}
+
+	<span class="hljs-meta">@Override</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">clear</span>(<span class="hljs-params"></span>) {
+		int len = wheels.<span class="hljs-property">length</span>;
+		<span class="hljs-keyword">for</span> (int i = <span class="hljs-number">0</span>; i &lt; len; i++)
+			<span class="hljs-keyword">while</span> (wheels[i].<span class="hljs-title function_">value</span>() != <span class="hljs-number">0</span>)
+				wheels[i].<span class="hljs-title function_">up</span>();
+	}
+
+	<span class="hljs-meta">@Override</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">up</span>(<span class="hljs-params"></span>) {
+		int len = wheels.<span class="hljs-property">length</span>;
+		int i = <span class="hljs-number">0</span>;
+		<span class="hljs-keyword">while</span> (i &lt; len) {
+			IThumbWheel wheel = wheels[i++];
+			wheel.<span class="hljs-title function_">up</span>();
+			<span class="hljs-keyword">if</span> (wheel.<span class="hljs-title function_">value</span>() != <span class="hljs-number">0</span>)
+				<span class="hljs-keyword">break</span>;
+		}
+	}
+
+	<span class="hljs-meta">@Override</span>
+	<span class="hljs-keyword">public</span> int <span class="hljs-title function_">getValue</span>(<span class="hljs-params"></span>) {
+		int len = wheels.<span class="hljs-property">length</span>;
+		int val = <span class="hljs-number">0</span>;
+		<span class="hljs-keyword">for</span> (int i = len - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--)
+			val = <span class="hljs-number">10</span> * val + wheels[i].<span class="hljs-title function_">value</span>();
+		<span class="hljs-keyword">return</span> val;
+	}
+
+	<span class="hljs-meta">@Override</span>
+	<span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">toString</span>(<span class="hljs-params"></span>) {
+		<span class="hljs-keyword">return</span> <span class="hljs-title class_">Integer</span>.<span class="hljs-title function_">toString</span>(<span class="hljs-title function_">getValue</span>());
+	}
+}
+</code></pre>
+        </div>
+      </div>
+      <p><b>La dépendance contient très peu de logique</b> :</p>
+      <div class="w3-card w3-margin tut-slide">
+        <header class="w3-padding w3-light-grey">ThumbWheel.java</header>
+        <div class="w3-padding w3-leftbar w3-border-green">
+          <pre><code class="java hljs language-typescript">package fr.<span class="hljs-property">imtne</span>.<span class="hljs-property">ilog</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ThumbWheel</span> <span class="hljs-keyword">implements</span> IThumbWheel {
+  <span class="hljs-keyword">protected</span> int val;
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-keyword">public</span> int <span class="hljs-title function_">value</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> val;
+  }
+  
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">up</span>(<span class="hljs-params"></span>) {
+    val = val &lt; <span class="hljs-number">9</span> ? val+<span class="hljs-number">1</span> : <span class="hljs-number">0</span>;
+  }
+  
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-title class_">String</span> <span class="hljs-title function_">toString</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Integer</span>.<span class="hljs-title function_">toString</span>(val);
+  }
+}
+</code></pre>
+        </div>
+      </div>
+      <p>La seule logique applicative qu'elle contient est <code>val = val &lt; 9 ? val+1 : 0</code> et il faut bien
+        sûr la tester mais il n'est pas nécessaire de la mocker pour tester Counter.</p>
+
+      <p>Mais malgré sa simplicité, la classe mock n'est pas plus simple que la classe réelle.</p>
+    </div>
+  </div>
+
+
+
+  <div class="w3-card w3-margin tut-slide">
+    <header class="w3-padding w3-blue">Technique de mocking</header>
+    <div class="w3-padding">
+      <p>Certaines parties de code sont difficiles à imiter et même si la méthode de test pilote les objets factices,
+        leur implémentation peut être délicate dans certains cas. C'est le cas du compteur à roues codeuses. Ces
+        difficultés d'implémentation (communes aux mocks et aux stubs) sont liées aux faits que :</p>
+      <ul>
+        <li>leurs méthodes fonctionnelles doivent fournir un résultat cohérent à l'objet testé ;</li>
+        <li>ce résultat peut dépendre des arguments que lui passe l'objet testé ;</li>
+        <li>les méthodes peuvent être plusieurs à être appelées ;</li>
+        <li>elles peuvent être appelées plusieurs fois et avec des arguments différents ;</li>
+        <li>le tout <u>sans retourner dans le test</u> pour qu'il puisse donner d'autres consignes aux objets
+          factices (c'est le cas des méthodes <code>clear</code>, <code>up</code> et <code>getValue</code>).</li>
+      </ul>
+      <p>Exemple de difficulté</p>
+      <ul>
+        <li>dans Counter#clear, on fait tourner la roue (jusqu'à ce qu'elle soit sur <code>0</code>) :</li>
+      </ul>
+      <pre><code class="java hljs language-bash"><span class="hljs-keyword">while</span> (wheels[i].value() != 0)
+      wheels[i].up();</code></pre>
+      <ul>
+        <li>l'exécution ne retourne pas dans le test entre l'appel à <code>up()</code>
+          et l'appel à <code>value()</code> ;</li>
+        <li>le test ne peut donc pas indiquer au mock quelle valeur la
+          méthode <code>value()</code> doit retourner.</li>
+      </ul>
+
+      <p><b>La classe mock utilise une technique de mocking intéressante (même si elle n'est pas plus simple que la
+          classe réelle).</b> :
+      </p>
+      <div class="w3-card w3-margin">
+        <header class="w3-padding w3-light-grey">ThumbWheelMock.java</header>
+        <div class="w3-padding w3-leftbar w3-border-green">
+          <pre><code class="java hljs language-typescript">package fr.<span class="hljs-property">imtne</span>.<span class="hljs-property">ilog</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ThumbWheelMock</span> <span class="hljs-keyword">implements</span> IThumbWheel {
+  <span class="hljs-keyword">protected</span> int iUp;
+  <span class="hljs-keyword">protected</span> int i;
+  <span class="hljs-keyword">protected</span> int[] values;
+
+  <span class="hljs-keyword">public</span> <span class="hljs-title class_">ThumbWheelMock</span>(int... values) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">values</span> = values;
+  }
+
+  <span class="hljs-keyword">public</span> int <span class="hljs-title function_">getUpCount</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> iUp;
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-keyword">public</span> int <span class="hljs-title function_">value</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> values[i++];
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">up</span>(<span class="hljs-params"></span>) {
+    iUp++;
+  }
+}</code></pre>
+        </div>
+      </div>
+      <ul>
+        <li>Le constructeur spécifie les valeurs consécutives que <code>value()</code> doit retourner ;</li>
+        <li><code>iUp</code> compte le nombre d'appels à la méthode <code>up()</code> ;</li>
+        <li><code>iUp++</code> ne reproduit pas la logique applicative (qui est une incrémentation modulo 10).</li>
+      </ul>
+
+      <p><b>Classe de test du compteur à roues codeuses</b> :</p>
+      <ul>
+        <li>On est capable de mettre les mocks dans l'état de départ qu'on souhaite ;</li>
+        <li>On teste bien les interactions :</li>
+        <ul>
+          <li>on sait vérifier le nombre de roues codeuses créées grâce à la fabrique de test ;</li>
+          <li>on sait compter le nombre d'incrémentations des roues codeuses.</li>
+        </ul>
+        <li>On a des méthodes helper ;</li>
+        <li>la plupart des méthodes de test sont concises.</li>
+      </ul>
+
+      <div class="w3-card w3-margin">
+        <header class="w3-padding w3-light-grey">CounterTest.java</header>
+        <div class="w3-padding w3-leftbar w3-border-green">
+          <pre><code class="java hljs language-typescript">package fr.<span class="hljs-property">imtld</span>.<span class="hljs-property">ilog</span>;
+
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">Assert</span>.<span class="hljs-property">assertEquals</span>;
+
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">Before</span>;
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">Rule</span>;
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">Test</span>;
+<span class="hljs-keyword">import</span> org.<span class="hljs-property">junit</span>.<span class="hljs-property">rules</span>.<span class="hljs-property">TestName</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CounterTest</span> {
+  <span class="hljs-keyword">protected</span> int cntCreateWheel;
+  <span class="hljs-keyword">protected</span> int cntCreateWheels;
+  <span class="hljs-keyword">protected</span> <span class="hljs-title class_">ThumbWheelMock</span>[] wheels;
+  <span class="hljs-keyword">protected</span> <span class="hljs-title class_">Counter</span> tested;
+
+  <span class="hljs-meta">@Rule</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-title class_">TestName</span> namTest = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TestName</span>();
+
+  <span class="hljs-meta">@Before</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">setUp</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-title class_">DelegatingFactory</span>.<span class="hljs-title function_">get</span>().<span class="hljs-title function_">setDelegate</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ThumbWheelMockFactory</span>());
+    cntCreateWheel = <span class="hljs-number">0</span>;
+    cntCreateWheels = <span class="hljs-number">0</span>;
+    <span class="hljs-title class_">System</span>.<span class="hljs-property">out</span>.<span class="hljs-title function_">println</span>(namTest.<span class="hljs-title function_">getMethodName</span>());
+  }
+
+  <span class="hljs-comment">/**
+    * Create ThumbWheels, as many as initial values.
+    * 
+    * <span class="hljs-doctag">@param</span> values Init values, starting by unit...
+    */</span>
+  <span class="hljs-keyword">protected</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">createWheels</span>(<span class="hljs-params">int... values</span>) {
+    wheels = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThumbWheelMock</span>[values.<span class="hljs-property">length</span>];
+    <span class="hljs-keyword">for</span> (int i = <span class="hljs-number">0</span>; i &lt; values.<span class="hljs-property">length</span>; i++)
+      wheels[i] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThumbWheelMock</span>(values[i]);
+  }
+
+  <span class="hljs-keyword">protected</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">checkWheelsUp</span>(<span class="hljs-params">int... values</span>) {
+    <span class="hljs-keyword">for</span> (int i = <span class="hljs-number">0</span>; i &lt; values.<span class="hljs-property">length</span>; i++)
+      <span class="hljs-title function_">assertEquals</span>(values[i], wheels[i].<span class="hljs-title function_">getUpCount</span>());
+  }
+
+  <span class="hljs-meta">@Test</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testCounter</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-title function_">createWheels</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+    tested = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Counter</span>();
+    <span class="hljs-title function_">assertEquals</span>(<span class="hljs-number">1</span>, cntCreateWheels);
+    <span class="hljs-title function_">assertEquals</span>(<span class="hljs-number">4</span>, cntCreateWheel);
+  }
+
+  <span class="hljs-meta">@Test</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testClear</span>(<span class="hljs-params"></span>) {
+    wheels = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThumbWheelMock</span>[<span class="hljs-number">4</span>];
+    <span class="hljs-comment">// 6789</span>
+    wheels[<span class="hljs-number">0</span>] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThumbWheelMock</span>(<span class="hljs-number">9</span>, <span class="hljs-number">0</span>);
+    wheels[<span class="hljs-number">1</span>] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThumbWheelMock</span>(<span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">0</span>); 
+    wheels[<span class="hljs-number">2</span>] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThumbWheelMock</span>(<span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">0</span>);
+    wheels[<span class="hljs-number">3</span>] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThumbWheelMock</span>(<span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">0</span>);
+    tested = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Counter</span>();
+    tested.<span class="hljs-title function_">clear</span>();
+    <span class="hljs-title function_">checkWheelsUp</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>);
+  }
+
+  <span class="hljs-meta">@Test</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testUp1</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-title function_">createWheels</span>(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>); <span class="hljs-comment">// 0000 -&gt; 0001</span>
+    tested = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Counter</span>();
+    tested.<span class="hljs-title function_">up</span>();
+    <span class="hljs-title function_">checkWheelsUp</span>(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+  }
+
+  <span class="hljs-meta">@Test</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testUp01</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-title function_">createWheels</span>(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>); <span class="hljs-comment">// 0009 -&gt; 0010</span>
+    tested = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Counter</span>();
+    tested.<span class="hljs-title function_">up</span>();
+    <span class="hljs-title function_">checkWheelsUp</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+  }
+
+  <span class="hljs-meta">@Test</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testUp001</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-title function_">createWheels</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>); <span class="hljs-comment">// 0099 -&gt; 0100</span>
+    tested = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Counter</span>();
+    tested.<span class="hljs-title function_">up</span>();
+    <span class="hljs-title function_">checkWheelsUp</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>);
+  }
+
+  <span class="hljs-meta">@Test</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testUp0001</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-title function_">createWheels</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">// 0999 -&gt; 1000</span>
+    tested = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Counter</span>();
+    tested.<span class="hljs-title function_">up</span>();
+    <span class="hljs-title function_">checkWheelsUp</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
+  }
+
+  <span class="hljs-meta">@Test</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testUp0000</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-title function_">createWheels</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>); <span class="hljs-comment">// 9999 -&gt; 0000</span>
+    tested = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Counter</span>();
+    tested.<span class="hljs-title function_">up</span>();
+    <span class="hljs-title function_">checkWheelsUp</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
+  }
+
+  <span class="hljs-meta">@Test</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">testValue</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-title function_">createWheels</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>);
+    tested = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Counter</span>();
+    <span class="hljs-title function_">assertEquals</span>(<span class="hljs-number">4321</span>, tested.<span class="hljs-title function_">getValue</span>());
+  }
+
+  <span class="hljs-keyword">protected</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ThumbWheelMockFactory</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Factory</span> {
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> IThumbWheel[] <span class="hljs-title function_">createThumbWheels</span>(<span class="hljs-params">int n</span>) {
+      <span class="hljs-title function_">assertEquals</span>(<span class="hljs-number">4</span>, n);
+      cntCreateWheels++;
+      <span class="hljs-keyword">return</span> wheels;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> IThumbWheel <span class="hljs-title function_">createThumbWheel</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">return</span> wheels[cntCreateWheel++];
+    }
+  }
+}
+            </code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="w3-card w3-margin tut-slide">
+    <header class="w3-padding w3-blue">Frameworks de mocking</header>
+    <div class="w3-padding">
+      <p>Les frameworks de mocking (comme Mockito) sont d'une aide précieuse dans l'implémentation des mocks et aussi
+        des stubs :</p>
+
+      <p><b>Instanciation d'une version factice d'une classe ou d'une interface</b> :</p>
+      <pre><code class="java hljs language-undefined">	wheels[TENS] = mock(IThumbWheel.class);</code></pre>
+      <ol>
+        <li>Mockito découvre les méthodes par introspection<sup>(1)</sup> ;</li>
+        <li>Génère du byte code<sup>(2)</sup> à la volée pour générer une classe mock :</li>
+        <ul>
+          <li>de même nom ;</li>
+          <li>avec des mêmes méthodes de même signature ;</li>
+          <li>autorisant les fonctionnalités de mocking du framework.</li>
+        </ul>
+      </ol>
+
+      <p><b>Préparation d'un objet factice pour qu'une méthode retourne successivement certaines valeurs</b> :</p>
+      <pre><code class="java hljs language-undefined">	when(wheels[TENS].value()).thenReturn(8, 9, 0);</code></pre>
+      <p>&nbsp;&nbsp;&nbsp; =&gt; <code>wheels[TENS].value()</code> retournera 8 puis 9 puis 0 lors de la
+        collaboration avec l'objet testé ;</p>
+      <p>&nbsp;&nbsp;&nbsp; =&gt; équivalent à <code class="java">when(wheels[TENS].value()).thenReturn(8)</code><code class="java">.thenReturn(9)</code><code class="java">.thenReturn(0)</code></p>
+
+
+      <p><b>Vérification de l'état d'un mock après collaboration avec l'objet testé</b></p>
+      <pre><code class="hljs language-bash">	verify(wheels[TENS], <span class="hljs-built_in">times</span>(2)).up();</code></pre>
+      <p>&nbsp;&nbsp;&nbsp; =&gt; vérifie que la méthode <code>up()</code>
+        a été appelée 2 fois sur <code>wheels[1]</code>.</p>
+      <p><sup>(1)</sup> Grâce à la bibliothèque de réflexion <a href="http://objenesis.org/" title="objenesis.org" target="_blank"><code>objenesis</code></a>.<br>
+        <sup>(2)</sup> Il utilise pour cela <a href="https://bytebuddy.net/" title="bytebuddy.net" target="_blank"><code>bytebuddy</code></a><sup>(3)</sup>,
+        une bibliothèque de génération et de manipulation de byte code.<br>
+        <sup>(3)</sup> bytebuddy intègre elle-même la bibliothèque <a href="https://asm.ow2.io/" title="asm.ow2.io" target="_blank">ASM</a> de manipulation et
+        d'analyse de byte code.
+      </p>
+    </div>
+  </div></div></div>
+
+    </div>
+    <script type="module" src="./ILOG_files/app.js"></script>
+
+
+</body></html>

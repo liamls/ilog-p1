@@ -5,7 +5,8 @@ class IlTuto extends HTMLElement {
   private regexMap = new Map<string, RegExp>([
     ['html', /<[a-z\\\/]/],
     ['css', /([a-z]{2,}\s?{|px)/],
-    ['typescript', /(const|let|var|document.query)/]
+    ['typescript', /(const|let|var|document.query)/],
+    ['java', /(public|void|new|Object|if|add)/]
   ]);
 
   connectedCallback() {
@@ -15,14 +16,14 @@ class IlTuto extends HTMLElement {
       'rel','stylesheet'
     );
     styleSheet1.setAttribute(
-      'href','./styles/atom-one-dark.css'
+      'href','/node_modules/iltuto/dist/styles/atom-one-dark.css'
     );
     var styleSheet2 = document.createElement('link');
     styleSheet2.setAttribute(
       'rel','stylesheet'
     );
     styleSheet2.setAttribute(
-      'href','./styles/main.css'
+      'href','/node_modules/iltuto/dist/styles/main.css'
     );
     head.appendChild(styleSheet1);
     head.appendChild(styleSheet2);
