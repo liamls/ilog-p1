@@ -32,7 +32,7 @@ npm install il-tuto
 ## Fonctionnement
 
 ```mermaid
-ssequenceDiagram
+sequenceDiagram
     HTML random page->>+IlTuto: <il-tuto filePath="mypath"></il-tuto>
     IlTuto->>+XML: new XMLHttpRequest() -> xml.open(mypath);
     XML-->>-IlTuto: retourne le contenu du fichier
