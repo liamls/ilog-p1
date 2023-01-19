@@ -1,5 +1,6 @@
 const hljs = require('highlight.js');
 const tippy = require('tippy.js').default;
+
 class IlTuto extends HTMLElement {
   
   private regexMap = new Map<string, RegExp>([
@@ -12,13 +13,13 @@ class IlTuto extends HTMLElement {
   connectedCallback() {
     var head = document.getElementsByTagName('head')[0];
     var styleSheet1 = document.createElement('link');
+    var styleSheet2 = document.createElement('link');
     styleSheet1.setAttribute(
       'rel','stylesheet'
     );
     styleSheet1.setAttribute(
       'href','/node_modules/iltuto/dist/styles/atom-one-dark.css'
     );
-    var styleSheet2 = document.createElement('link');
     styleSheet2.setAttribute(
       'rel','stylesheet'
     );
@@ -27,11 +28,14 @@ class IlTuto extends HTMLElement {
     );
     head.appendChild(styleSheet1);
     head.appendChild(styleSheet2);
+
     const inputFilePath = this.getAttribute('filePath');
     var pathFileToDisplay = "";
+
     if(inputFilePath) {
       pathFileToDisplay = inputFilePath.toString();
     }
+
     this.extractContentFromHTMLFile(pathFileToDisplay, this);
   }
   
@@ -47,14 +51,15 @@ class IlTuto extends HTMLElement {
   }
 
   createHljsContent(content: string): void {
-    var start = document.getElementById('start') as HTMLElement;
     let code_items_total: HTMLElement[] = new Array();
+
     var parser = new DOMParser();
 	  var doc = parser.parseFromString(content, 'text/html');
+
 	  const html = doc.body;
-    const code_items = Array.from(html.querySelectorAll('code'));
     const pre_items = Array.from(html.querySelectorAll('pre'));
     const div_items = Array.from(html.querySelectorAll('div'));
+
     pre_items.forEach(pre_item => {
       const code_items_in_pre = Array.from(pre_item.querySelectorAll('code'));
       pre_item.className = "coder";
@@ -75,6 +80,7 @@ class IlTuto extends HTMLElement {
         });
       }
     });
+
     code_items_total.forEach(code_item => {
       let language = code_item.parentNode?.parentNode?.parentNode?.querySelector('header')?.textContent?.split('.')[1];
       if(!language) {
@@ -92,6 +98,7 @@ class IlTuto extends HTMLElement {
       code_item.textContent = '';
       code_item.appendChild(doc.createTextNode(content));
     });
+
     div_items.forEach(div_item => {
       if(div_item.hasAttribute("tooltip")){
             tippy(div_item, {
@@ -99,7 +106,9 @@ class IlTuto extends HTMLElement {
             });
       }
     });
-    start.appendChild(doc.body);
+
+    document.body.appendChild(doc.body);
+    
     hljs.highlightAll();
   }
 }

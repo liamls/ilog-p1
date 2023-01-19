@@ -14,9 +14,9 @@ class IlTuto extends HTMLElement {
     connectedCallback() {
         var head = document.getElementsByTagName('head')[0];
         var styleSheet1 = document.createElement('link');
+        var styleSheet2 = document.createElement('link');
         styleSheet1.setAttribute('rel', 'stylesheet');
         styleSheet1.setAttribute('href', '/node_modules/iltuto/dist/styles/atom-one-dark.css');
-        var styleSheet2 = document.createElement('link');
         styleSheet2.setAttribute('rel', 'stylesheet');
         styleSheet2.setAttribute('href', '/node_modules/iltuto/dist/styles/main.css');
         head.appendChild(styleSheet1);
@@ -39,12 +39,10 @@ class IlTuto extends HTMLElement {
         xhr.send();
     }
     createHljsContent(content) {
-        var start = document.getElementById('start');
         let code_items_total = new Array();
         var parser = new DOMParser();
         var doc = parser.parseFromString(content, 'text/html');
         const html = doc.body;
-        const code_items = Array.from(html.querySelectorAll('code'));
         const pre_items = Array.from(html.querySelectorAll('pre'));
         const div_items = Array.from(html.querySelectorAll('div'));
         pre_items.forEach(pre_item => {
@@ -92,7 +90,7 @@ class IlTuto extends HTMLElement {
                 });
             }
         });
-        start.appendChild(doc.body);
+        document.body.appendChild(doc.body);
         hljs.highlightAll();
     }
 }

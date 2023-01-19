@@ -10,7 +10,7 @@
 
 ## Description
 
-Ce commposant web permet d'effectuer la coloration syntaxique d'une page web lorsqu'il est appelé.
+Ce composant web permet d'effectuer la coloration syntaxique d'une page web lorsqu'il est appelé.
 
 Ce composant permettra également d'afficher des infos bulles pour avoir des informations supplémentaires si la souris survole le bloc de code.
 
